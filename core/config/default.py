@@ -13,6 +13,8 @@ class DefaultConfig():
     DB_USERNAME = getenv('DB_USERNAME', None)
     DB_PASSWORD = getenv('DB_PASSWORD', None)
     
+    SQLALCHEMY_TRACK_MODIFICATION = False
+    
     @property
     def SQLALCHEMY_DATABASE_URI(self):
         return f"mysql+pymysql//{self.DB_USERNAME}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_DATABASE}"

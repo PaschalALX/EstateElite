@@ -17,5 +17,3 @@ def load_config(ENV=getenv('ENV', 'development')):
     except ImportError:
         from .default import DefaultConfig
         return DefaultConfig
-    
-config = load_config()
