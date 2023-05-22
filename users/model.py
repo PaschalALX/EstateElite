@@ -12,11 +12,16 @@ class User(db.Model):
 
     id = db.Column(db.String(36), unique=True, default=str(uuid4()),
                    primary_key=True)
+    username = db.Column(db.String, nullable=False, unique=True)
+    email = db.Column(db.String, nullable=False, unique=True)
+    password = db.Column(db.String, nullable=False)
+    admin = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.now(), nullable=False)
     updated_at = db.Column(db.DateTime, default=datetime.now(), nullable=False,
                            onupdate=datetime.now())
-    name = db.Column(db.String, nullable=False)
-    password = db.Column(db.String, nullable=False)
-    admin = db.Column(db.Boolean, default=False)
-    properties = db.relationship('Property', backref='user',
+
+    properties = db.relationship('Property', back_populates='user',
                                  cascade='all, delete, delete-orphan')
+
+    def __repr__(self):
+        return f"({self.id}) {self.username}"
