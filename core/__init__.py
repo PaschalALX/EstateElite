@@ -11,4 +11,3 @@ migrate = Migrate(app, db)
 
 import core.database.models_register
 # with app.app_context():
-    
