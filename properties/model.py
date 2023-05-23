@@ -17,7 +17,8 @@ class Property(db.Model):
     state = db.Column(db.String, nullable=False)
     city = db.Column(db.String, nullable=False)
     address = db.Column(db.String, nullable=False)
-    user_id = db.Column(db.String, db.ForeignKey('users.id'), unique=True)
+    featured = db.Column(db.Boolean, default=False)
+    user_id = db.Column(db.String, db.ForeignKey('users.id'))
     created_at = db.Column(db.DateTime, default=datetime.now(), nullable=False)
     updated_at = db.Column(db.DateTime, default=datetime.now(), nullable=False,
                            onupdate=datetime.now())
@@ -36,7 +37,7 @@ class Image(db.Model):
     
     id = db.Column(db.String(36), unique=True, default=str(uuid4()),
                    primary_key=True)
-    property_id = db.Column(db.String, db.ForeignKey('properties.id'), unique=True)
+    property_id = db.Column(db.String, db.ForeignKey('properties.id'))
     path = db.Column(db.String, default=None)
 
     property = db.relationship('Property', back_populates='images')

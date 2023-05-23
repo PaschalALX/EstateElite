@@ -1,8 +1,8 @@
-"""Create Users, Properties and Images
+"""Created Tables
 
-Revision ID: f17e13e56e39
+Revision ID: 94fb44d63ae3
 Revises: 
-Create Date: 2023-05-22 22:41:43.846652
+Create Date: 2023-05-22 23:45:04.021983
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'f17e13e56e39'
+revision = '94fb44d63ae3'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -38,13 +38,13 @@ def upgrade():
     sa.Column('state', sa.String(), nullable=False),
     sa.Column('city', sa.String(), nullable=False),
     sa.Column('address', sa.String(), nullable=False),
+    sa.Column('featured', sa.Boolean(), nullable=True),
     sa.Column('user_id', sa.String(), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.Column('updated_at', sa.DateTime(), nullable=False),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('id'),
-    sa.UniqueConstraint('user_id')
+    sa.UniqueConstraint('id')
     )
     op.create_table('images',
     sa.Column('id', sa.String(length=36), nullable=False),
@@ -52,8 +52,7 @@ def upgrade():
     sa.Column('path', sa.String(), nullable=True),
     sa.ForeignKeyConstraint(['property_id'], ['properties.id'], ),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('id'),
-    sa.UniqueConstraint('property_id')
+    sa.UniqueConstraint('id')
     )
     # ### end Alembic commands ###
 
