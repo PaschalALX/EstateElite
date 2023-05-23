@@ -18,14 +18,11 @@ def validate(func):
             
             
             if re.match(email_regex_pattern, auth_data['username_or_email']):
-                request.with_email = True
-                request.with_username = False
+                auth_data['email'] = auth_data['username_or_email']
             else:
-                request.with_username = True
-                request.with_email = False    
+                auth_data['username'] = auth_data['username_or_email'] 
 
             request.data = auth_data
-            
             ''' Makes Request if validation is successful'''
             return func(*args, **kwargs)  
         except jsonschema.ValidationError as e:

@@ -11,7 +11,7 @@ class Register(View):
 class Login(View):
     @validate_user_login
     def dispatch_request(self):
-        res = 'EMAIL' if request.with_email else 'USERNAME'
+        res = 'EMAIL' if request.data.get('email') else 'USERNAME'
         return jsonify({'name': res})
 
 class RefreshToken(View):
