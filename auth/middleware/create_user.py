@@ -7,17 +7,17 @@ def validate(func):
         if not request.is_json:
             abort(415)
            
-        auth_data = request.get_json()
-        if not len(auth_data):
+        user_data = request.get_json()
+        if not len(user_data):
             abort(400, 'User Request object is empty')
         
         try:
-            jsonschema.validate(auth_data, create_user_schema)
+            jsonschema.validate(user_data, create_user_schema)
             
-            if not auth_data['confirm_password'] == auth_data['password']:
+            if not user_data['confirm_password'] == user_data['password']:
                 abort(400, 'Confirm Password does not match')
                 
-            request.data = auth_data
+            request.data = user_data
             
             ''' Makes Request if validation is successful'''
             return func(*args, **kwargs)
