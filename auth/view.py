@@ -1,14 +1,18 @@
-from flask import jsonify
+from flask import jsonify, request
 from flask.views import View
-from .middleware.register_request import validate as validate_register_request
+from .middleware.create_user import validate as validate_user_creation
+from .middleware.login_user import validate as validate_user_login
 
 class Register(View):
-    @validate_register_request
+    @validate_user_creation
     def dispatch_request(self):
         return jsonify({'name': 'register'})
 
 class Login(View):
-    pass
+    @validate_user_login
+    def dispatch_request(self):
+        res = 'EMAIL' if request.with_email else 'USERNAME'
+        return jsonify({'name': res})
 
 class RefreshToken(View):
     pass
