@@ -1,2 +1,2 @@
-from users.model import User
-from properties.model import Property, Image
+from users.schemas.model import User
+from properties.schemas.model import Property, Image

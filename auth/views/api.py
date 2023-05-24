@@ -1,7 +1,7 @@
 from flask import jsonify, request
 from flask.views import View
-from .middleware.create_user import validate as validate_user_creation
-from .middleware.login_user import validate as validate_user_login
+from ..middlewares.create_user import validate as validate_user_creation
+from ..middlewares.login_user import validate as validate_user_login
 
 class Register(View):
     @validate_user_creation

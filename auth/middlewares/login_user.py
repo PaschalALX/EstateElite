@@ -1,6 +1,6 @@
 from flask import request, abort
 import jsonschema
-from ..json_schemas.request import (login_user_schema, 
+from ..schemas.api.request import (login_user_schema, 
                                   email_regex_pattern)
 import re
 

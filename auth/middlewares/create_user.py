@@ -1,6 +1,6 @@
 from flask import request, abort
 import jsonschema
-from ..json_schemas.request import (create_user_schema, email_regex_pattern)
+from ..schemas.api.request import (create_user_schema, email_regex_pattern)
 
 def validate(func):
     def wrapper(*args, **kwargs):
