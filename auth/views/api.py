@@ -4,12 +4,12 @@ from ..middlewares.create_user import validate as validate_user_creation
 from ..middlewares.login_user import validate as validate_user_login
 
 class Register(View):
-    @validate_user_creation
+    @validate_user_creation()
     def dispatch_request(self):
         return jsonify({'name': 'register'})
 
 class Login(View):
-    @validate_user_login
+    @validate_user_login()
     def dispatch_request(self):
         res = 'EMAIL' if request.data.get('email') else 'USERNAME'
         return jsonify({'name': res})

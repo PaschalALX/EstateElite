@@ -16,13 +16,9 @@ create_user_schema = {
         "password": {
             "type": "string",
             "minLength": 8
-        },
-        "confirm_password": {
-            "type": "string",
-            "minLength": 8
         }
     },
-    "required": ["username", "email", "password", "confirm_password"]
+    "required": ["username", "email", "password"]
 }
 
 login_user_schema = {
