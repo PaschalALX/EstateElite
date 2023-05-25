@@ -1,7 +1,6 @@
-from flask import request, abort
+from flask import request, abort, jsonify
 from functools import wraps
-import jsonschema
-from ..schemas.api.request import (create_user_schema, email_regex_pattern)
+from ..schemas.request import NewUserSchema, ValidationError
 
 def validate():
     def wrapper(func):
@@ -10,23 +9,23 @@ def validate():
             if not request.is_json:
                 abort(415)
             
-            user_data = request.get_json()
-            if not len(user_data):
-                abort(400, 'User Request object is empty')
-            
             try:
-                jsonschema.validate(user_data, create_user_schema)
-                    
-                request.data = user_data
+                new_user_data = request.json
+                print(new_user_data)
+                new_user_schema = NewUserSchema()
+                valid_data = new_user_schema.load(new_user_data)
+                request.valid_data = valid_data
                 
                 ''' Makes Request if validation is successful'''
                 return func(*args, **kwargs)
             
-            except jsonschema.ValidationError as e:
-                if e.validator_value == email_regex_pattern:
-                    abort(400, f"{e.instance} is not a valid email")
-                else:
-                    abort(400, e.message)
-                    
+            except ValidationError as e:
+                err_dict = {k: v[0] for k, v in e.messages.items()}
+                err_resp = {
+                    'error': err_dict
+                }
+                
+                return jsonify(err_resp), 400
+                               
         return wrapper
     return wrapper
