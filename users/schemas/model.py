@@ -10,14 +10,14 @@ class User(db.Model):
 
     __tablename__ = 'users'
 
-    id = db.Column(db.String(36), unique=True, default=str(uuid4()),
+    id = db.Column(db.String(36), unique=True, default=lambda: str(uuid4()),
                    primary_key=True)
     username = db.Column(db.String, nullable=False, unique=True)
     email = db.Column(db.String, nullable=False, unique=True)
     password = db.Column(db.String, nullable=False)
-    admin = db.Column(db.Boolean, default=False)
-    created_at = db.Column(db.DateTime, default=datetime.now(), nullable=False)
-    updated_at = db.Column(db.DateTime, default=datetime.now(), nullable=False,
+    is_admin = db.Column(db.Boolean, default=False)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(), nullable=False)
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(), nullable=False,
                            onupdate=datetime.now())
 
     properties = db.relationship('Property', back_populates='user',

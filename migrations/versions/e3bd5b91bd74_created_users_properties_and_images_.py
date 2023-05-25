@@ -1,8 +1,8 @@
-"""Created Tables
+"""Created users, properties, and images tables
 
-Revision ID: 94fb44d63ae3
+Revision ID: e3bd5b91bd74
 Revises: 
-Create Date: 2023-05-22 23:45:04.021983
+Create Date: 2023-05-25 09:24:17.047028
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '94fb44d63ae3'
+revision = 'e3bd5b91bd74'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -23,7 +23,7 @@ def upgrade():
     sa.Column('username', sa.String(), nullable=False),
     sa.Column('email', sa.String(), nullable=False),
     sa.Column('password', sa.String(), nullable=False),
-    sa.Column('admin', sa.Boolean(), nullable=True),
+    sa.Column('is_admin', sa.Boolean(), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.Column('updated_at', sa.DateTime(), nullable=False),
     sa.PrimaryKeyConstraint('id'),
@@ -38,7 +38,7 @@ def upgrade():
     sa.Column('state', sa.String(), nullable=False),
     sa.Column('city', sa.String(), nullable=False),
     sa.Column('address', sa.String(), nullable=False),
-    sa.Column('featured', sa.Boolean(), nullable=True),
+    sa.Column('is_featured', sa.Boolean(), nullable=True),
     sa.Column('user_id', sa.String(), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.Column('updated_at', sa.DateTime(), nullable=False),
