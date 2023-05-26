@@ -12,6 +12,7 @@ flask-migrate = "*"
 jsonschema = "*"
 marshmallow = "*"
 flask-bcrypt = "*"
+flasgger = "*"
 
 [dev-packages]
 
