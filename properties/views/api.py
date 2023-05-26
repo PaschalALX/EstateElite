@@ -2,6 +2,8 @@ from flask import jsonify
 from flask.views import View
 from core import db
 from ..schemas.model import Property
+from ..schemas.request_body import CATEGORIES
+from core.helper.http_response import api_data
 
 class AllProperties(View):
     def dispatch_request(self):
@@ -14,3 +16,6 @@ class AllProperties(View):
             ppty_list.append(ppty.__dict__)
     
         return jsonify(ppty_list)
+    
+def get_categories():
+    return api_data(CATEGORIES)

@@ -13,6 +13,7 @@ jsonschema = "*"
 marshmallow = "*"
 flask-bcrypt = "*"
 flasgger = "*"
+bs4 = "*"
 
 [dev-packages]
 

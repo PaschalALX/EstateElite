@@ -8,19 +8,19 @@ info:
     url: https://github.com/PaschalPM
     email: okaforpaschal018@gmail.com
 basePath: /api
-schemes: 
+schemes:
   - http
   - https
-consumes: 
+consumes:
   - application/json
-produces: 
+produces:
   - application/json
 definitions:
   BaseUserModel:
     description: Base User Model
     type: object
     properties:
-      username: 
+      username:
         type: string
       email:
         type: string
@@ -29,23 +29,23 @@ definitions:
         type: string
         minLength: 8
   RequestUserCreationModel:
-    allOf: 
+    allOf:
       - description: User Request Object for user registration operation
       - $ref: '#/definitions/BaseUserModel'
-      - example: 
+      - example:
           username: pasmac
           email: pasmac@gmail.com
           password: abcd1234
       - required: [username, email, password]
   RequestUserLoginModel:
-    allOf: 
+    allOf:
       - description: Please provide either the 'username' or 'email' property.
       - $ref: '#/definitions/BaseUserModel'
-      - example: 
+      - example:
           username: pasmac
           password: abcd1234
       - required: [password]
-  RequestPropertyModel:
+  ResponsePropertyModel:
     description: Get Property Object
     type: object
     properties:
@@ -55,7 +55,7 @@ definitions:
         type: string
       category:
         type: string
-        enum: 
+        enum:
           - Commercial Property for Rent
           - Commercial Property for Sale
           - Houses & Apartments for Rent
@@ -64,9 +64,9 @@ definitions:
           - Land & Plots for Sale
       address:
         type: string
-      state:
-        type: string
       city:
+        type: string
+      state:
         type: string
       description:
         type: string
@@ -80,7 +80,19 @@ definitions:
         type: array
         items:
           type: string
-    example: 
+    required:
+      - id
+      - title
+      - category
+      - address
+      - city
+      - state
+      - desription
+      - price
+      - is_featured
+      - created_at
+      - image_urls
+    example:
       id: 4a6820e1-14c2-4c34-9c55-9a9a29edbe34
       title: A gorgeous 2 bedroom apartment for sale
       category: Houses & Apartments for Sale
@@ -96,11 +108,64 @@ definitions:
         - /static/images/image-2.jpg
         - /static/images/image-3.jpg
         - /static/images/image-4.jpg
-  RequestPropertiesModel:
+  ResponsePropertiesModel:
     type: array
     items:
       allOf:
-        - $ref: '#/definitions/RequestPropertyModel'
+        - $ref: '#/definitions/ResponsePropertyModel'
+  NewPropertyModel:
+    description: Post Property Object
+    type: object
+    properties:
+      title:
+        type: string
+      category:
+        type: string
+        enum:
+          - Commercial Property for Rent
+          - Commercial Property for Sale
+          - Houses & Apartments for Rent
+          - Houses & Apartments for Sale
+          - Land & Plots for Rent
+          - Land & Plots for Sale
+      address:
+        type: string
+      city:
+        type: string
+      state:
+        type: string
+      description:
+        type: string
+      price:
+        type: integer
+      images:
+        type: array
+        items:
+          type: string
+        minItems: 3
+        maxItems: 5
+    required:
+      - title
+      - category
+      - address
+      - city
+      - state
+      - description
+      - price
+      - images
+    example:
+      title: A gorgeous 2 bedroom apartment for sale
+      category: Houses & Apartments for Sale
+      address: 24 Adeola Odeku Street, Victoria Island, Lagos
+      city: Lagos
+      state: Lagos
+      description: This 2-bedroom apartment for sale is an exquisite and visually appealing living space. With its stunning design and meticulous attention to detail, this property radiates beauty and elegance. The apartment offers a perfect blend of comfort and style, providing a luxurious and inviting atmosphere. It features two well-appointed bedrooms, ensuring ample space for relaxation and privacy. Whether you're seeking a new home or an investment opportunity, this gorgeous 2-bedroom apartment promises to captivate with its charm and allure
+      price: 70000000
+      images:
+        - "data:image/jpeg;base64,iVBORw0KG... (the rest of your Data URL)"
+        - "data:image/png;base64,jkgserth... (the rest of your Data URL)"
+        - "data:image/jpeg;base64,i06jgdf... (the rest of your Data URL)"
+     
 paths:
   /auth/register:
     post:
@@ -124,7 +189,16 @@ paths:
                 code: 400
                 description: Invalid user request
                 message: The request body is missing required fields or contains invalid data
-  
+        409:
+          description: Conflict
+          schema:
+            type: object
+            example:
+              error:
+                code: 409
+                description: Conflict
+                message: Username already exists
+ 
   /auth/login:
     post:
       summary: Login user and get JWT access token
@@ -151,7 +225,7 @@ paths:
                 code: 401
                 description: Invalid credentials
                 message: The provided username and password combination is incorrect
-  
+ 
   /auth/refresh:
     post:
       summary: Refresh token
@@ -187,7 +261,7 @@ paths:
                 code: 403
                 description: Forbidden
                 message: Insufficient permissions to obtain an access token (blacklisted)
-  
+ 
   /auth/logout:
     delete:
       summary: logout users
@@ -195,7 +269,7 @@ paths:
       responses:
         200:
           description: User logged out
-          
+         
   /properties:
     get:
       summary: Get all properties
@@ -204,8 +278,24 @@ paths:
         200:
           description: Ok
           schema:
-            $ref: '#/definitions/RequestPropertiesModel'
-  
+            $ref: '#/definitions/ResponsePropertiesModel'
+ 
+  /properties/{ppty_id}:
+    get:
+      summary: Get single property
+      description: Get single property with image urls
+      parameters:
+        - in: path
+          name: ppty_id
+          description: This is the property's uuid to retrieve a single property record
+          required: true
+          type: string
+      responses:
+        200:
+          description: Ok
+          schema:
+            $ref: '#/definitions/ResponsePropertyModel'
+ 
   /users/{user_id}/properties:
     get:
       summary: Get all properties of a User
@@ -220,15 +310,63 @@ paths:
         200:
           description: OK
           schema:
-            $ref: '#/definitions/RequestPropertiesModel'
-    
-            
-                  
-    
-    
-          
-
-    
-    
-      
-    
+            $ref: '#/definitions/ResponsePropertiesModel'
+    post:
+      summary: Add new property
+      description: Adds a new property with compressed images
+      parameters:
+        - in: body
+          name: payload
+          required: true
+          schema:
+            $ref: '#/definitions/NewPropertyModel'
+        - in: path
+          name: user_id
+          required: true
+          type: string
+          description: this is the user's uuid to post a new property
+         
+      responses:
+        201:
+          description: "Returns the uuid of the new property created"
+          schema:
+            $ref: '#/definitions/ResponsePropertyModel'
+           
+ 
+  /users/{user_id}/properties/{ppty_id}:
+    get:
+      summary: Get a single property
+      description: Get single property with image urls
+      parameters:
+        - in: path
+          name: user_id
+          description: This is the user's uuid to access his property records
+          required: true
+          type: string
+        - in: path
+          name: ppty_id
+          description: This is the property's uuid to retrieve a single property record
+          required: true
+          type: string
+      responses:
+        200:
+          description: Ok
+          schema:
+            $ref: '#/definitions/ResponsePropertyModel'
+    delete:
+      summary: Delete a single property
+      description: Delete a single property with all its images
+      parameters:
+        - in: path
+          name: user_id
+          description: This is the user's uuid to access his property records
+          required: true
+          type: string
+        - in: path
+          name: ppty_id
+          description: This is the property's uuid to delete a single property record
+          required: true
+          type: string
+      responses:
+        204:
+          description: No Content

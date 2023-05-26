@@ -1,6 +1,6 @@
 from flask import request, abort, jsonify
 from functools import wraps
-from ..schemas.request import NewUserSchema, ValidationError
+from ..schemas.request_body import NewUserSchema, ValidationError
 from core.helper.http_response import api_error
 
 def validate():

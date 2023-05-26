@@ -53,7 +53,7 @@ class Login(View):
         else:
             pwd_found = flask_bcrypt.check_password_hash(user.password, user_pwd)
 
-        if pwd_found is True:
+        if pwd_found:
             username = user.__dict__['username']
             return jsonify({'username': username})
         else:
