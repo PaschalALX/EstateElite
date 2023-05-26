@@ -5,7 +5,7 @@ from users.schemas.model import User
 from ..middlewares.create_user import validate as validate_user_creation
 from ..middlewares.login_user import validate as validate_user_login
 from os.path import abspath, join
-from core.helper.http_response import api_error
+from core.helper.http_response import api_error, api_data
 from core.database.storage import addUser
 
 
@@ -55,7 +55,7 @@ class Login(View):
 
         if pwd_found:
             username = user.__dict__['username']
-            return jsonify({'username': username})
+            return api_data({'username': username})
         else:
             return api_error(401, 'Incorrect password')
 
