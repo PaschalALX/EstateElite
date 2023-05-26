@@ -1,13 +1,15 @@
 from flask import request, abort, jsonify
 from functools import wraps
 from ..schemas.request import NewUserSchema, ValidationError
+from core.helper.http_response import api_error
 
 def validate():
     def wrapper(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
             if not request.is_json:
-                abort(400, "Invalid user request")
+                return api_error()
+        
             
             try:
                 new_user_data = request.json
@@ -21,11 +23,8 @@ def validate():
             
             except ValidationError as e:
                 err_dict = {k: v[0] for k, v in e.messages.items()}
-                err_resp = {
-                    'error': err_dict
-                }
                 
-                return jsonify(err_resp), 400
+                return api_error(400, err_dict)
                                
         return wrapper
     return wrapper

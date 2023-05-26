@@ -5,6 +5,7 @@ from users.schemas.model import User
 from ..middlewares.create_user import validate as validate_user_creation
 from ..middlewares.login_user import validate as validate_user_login
 from os.path import abspath, join
+from core.helper.http_response import api_error
 
 class Register(View):
     @validate_user_creation()
@@ -12,19 +13,15 @@ class Register(View):
         if request.method == 'POST':
             data = request.valid_data
             password = data.get('password')
-            username = data.get('username')
             
             pwd_hash = flask_bcrypt.generate_password_hash(password).decode('utf-8')
             confirm_pwd_hash = flask_bcrypt.check_password_hash(pwd_hash, password)
 
             if confirm_pwd_hash is True:
-                for key, value in data.items():
+                for key in data:
                     if key == 'password':
                         data[key] = pwd_hash
-                    if key == 'username':
-                        if value == '' or value.isspace() is True:
-                            return jsonify({'Error': 'Unsupported username'}), 400
-                
+        
                 with app.app_context():
                     try:
                         user = User(**data)
@@ -34,10 +31,10 @@ class Register(View):
                     except Exception as e:
                         error_message = str(e.args[0]) if e.args else "Unknown error occurred"
                         if 'UNIQUE constraint failed: users.username' in error_message:
-                            return jsonify({'Error': 'Username has already been chosen'}), 409
+                            return api_error(409, 'Username already exists')
                         if 'UNIQUE constraint failed: users.email' in error_message:
-                            return jsonify({'Error': 'Email has already been chosen'}), 409
-                        return jsonify({'Error': error_message}), 400
+                            return api_error(409, 'Email already exists')
+                        return api_error(400, error_message)
             else:
                 return '', 500
 
