@@ -1,0 +1,234 @@
+swagger: "2.0"
+info:
+  title: EstateElite
+  description: API for ALX Portfolio Project (EstateElite)
+  version: 1.0.0
+  contact:
+    name: PaschalPM
+    url: https://github.com/PaschalPM
+    email: okaforpaschal018@gmail.com
+basePath: /api
+schemes: 
+  - http
+  - https
+consumes: 
+  - application/json
+produces: 
+  - application/json
+definitions:
+  BaseUserModel:
+    description: Base User Model
+    type: object
+    properties:
+      username: 
+        type: string
+      email:
+        type: string
+        format: email
+      password:
+        type: string
+        minLength: 8
+  RequestUserCreationModel:
+    allOf: 
+      - description: User Request Object for user registration operation
+      - $ref: '#/definitions/BaseUserModel'
+      - example: 
+          username: pasmac
+          email: pasmac@gmail.com
+          password: abcd1234
+      - required: [username, email, password]
+  RequestUserLoginModel:
+    allOf: 
+      - description: Please provide either the 'username' or 'email' property.
+      - $ref: '#/definitions/BaseUserModel'
+      - example: 
+          username: pasmac
+          password: abcd1234
+      - required: [password]
+  RequestPropertyModel:
+    description: Get Property Object
+    type: object
+    properties:
+      id:
+        type: string
+      title:
+        type: string
+      category:
+        type: string
+        enum: 
+          - Commercial Property for Rent
+          - Commercial Property for Sale
+          - Houses & Apartments for Rent
+          - Houses & Apartments for Sale
+          - Land & Plots for Rent
+          - Land & Plots for Sale
+      address:
+        type: string
+      state:
+        type: string
+      city:
+        type: string
+      description:
+        type: string
+      price:
+        type: string
+      is_featured:
+        type: boolean
+      created_at:
+        type: string
+      image_urls:
+        type: array
+        items:
+          type: string
+    example: 
+      id: 4a6820e1-14c2-4c34-9c55-9a9a29edbe34
+      title: A gorgeous 2 bedroom apartment for sale
+      category: Houses & Apartments for Sale
+      address: 24 Adeola Odeku Street, Victoria Island, Lagos
+      city: Lagos
+      state: Lagos
+      description: This 2-bedroom apartment for sale is an exquisite and visually appealing living space. With its stunning design and meticulous attention to detail, this property radiates beauty and elegance. The apartment offers a perfect blend of comfort and style, providing a luxurious and inviting atmosphere. It features two well-appointed bedrooms, ensuring ample space for relaxation and privacy. Whether you're seeking a new home or an investment opportunity, this gorgeous 2-bedroom apartment promises to captivate with its charm and allure
+      price: ₦70,000,000.00
+      is_featured: true
+      created_at: 1 hour ago
+      image_urls:
+        - /static/images/image-1.jpg
+        - /static/images/image-2.jpg
+        - /static/images/image-3.jpg
+        - /static/images/image-4.jpg
+  RequestPropertiesModel:
+    type: array
+    items:
+      allOf:
+        - $ref: '#/definitions/RequestPropertyModel'
+paths:
+  /auth/register:
+    post:
+      summary: Create new user
+      description: Create new user
+      parameters:
+        - name: payload
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/RequestUserCreationModel'
+      responses:
+        201:
+          description: User created successfully
+        400:
+          description: Bad Request
+          schema:
+            type: object
+            example:
+              error:
+                code: 400
+                description: Invalid user request
+                message: The request body is missing required fields or contains invalid data
+  
+  /auth/login:
+    post:
+      summary: Login user and get JWT access token
+      description:  "NOTE: Please provide either the 'username' or 'email' property."
+      parameters:
+        - name: payload
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/RequestUserLoginModel'
+      responses:
+        200:
+          description: User logged in
+          schema:
+            type: object
+            example:
+              access_token: 4a6820e1-14c2-4c34-9c55-9a9a29edbe34
+        401:
+          description: Unauthorized
+          schema:
+            type: object
+            example:
+              error:
+                code: 401
+                description: Invalid credentials
+                message: The provided username and password combination is incorrect
+  
+  /auth/refresh:
+    post:
+      summary: Refresh token
+      description: Refresh access tokens from refresh tokens sent as cookie
+      parameters:
+        - name: refresh_token
+          description: refresh_token should be sent as a cookie
+          in: header
+          required: true
+          type: string
+      responses:
+        200:
+          description: User logged in
+          schema:
+            type: object
+            example:
+              access_token: 4a6820e1-14c2-4c34-9c55-9a9a29edbe34
+        401:
+          description: Unauthorized
+          schema:
+            type: object
+            example:
+              error:
+                code: 401
+                description: Unauthorized
+                message: Invalid or expired refresh token
+        403:
+          description: Forbidden
+          schema:
+            type: object
+            example:
+              error:
+                code: 403
+                description: Forbidden
+                message: Insufficient permissions to obtain an access token (blacklisted)
+  
+  /auth/logout:
+    delete:
+      summary: logout users
+      description: logout user and revoke jwt tokens
+      responses:
+        200:
+          description: User logged out
+          
+  /properties:
+    get:
+      summary: Get all properties
+      description: Get all properties with image urls
+      responses:
+        200:
+          description: Ok
+          schema:
+            $ref: '#/definitions/RequestPropertiesModel'
+  
+  /users/{user_id}/properties:
+    get:
+      summary: Get all properties of a User
+      description: Get all properties of a User with image urls
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          type: string
+          description: this is the user's uuid to retrieve properties created by him
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/RequestPropertiesModel'
+    
+            
+                  
+    
+    
+          
+
+    
+    
+      
+    

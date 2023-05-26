@@ -4,9 +4,7 @@ from users.routes.api import api_users_bp
 from auth.routes.api import api_auth_bp
 from core import db, app
 from users.schemas.model import User
-from core.errorhander.request import (resource_not_found, 
-                                      unsupported_media_type,
-                                      bad_request)
+from core.errorhander.http_request import (resource_not_found, bad_request)
 ''' Register API Blueprints'''
 app.register_blueprint(api_pptys_bp)
 app.register_blueprint(api_auth_bp)
@@ -15,7 +13,6 @@ app.register_blueprint(api_users_bp)
 ''' Register Error Handlers'''
 app.register_error_handler(400, bad_request)
 app.register_error_handler(404, resource_not_found)
-app.register_error_handler(415, unsupported_media_type)
 
 """
 with app.app_context():

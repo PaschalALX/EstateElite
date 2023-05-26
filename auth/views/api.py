@@ -4,12 +4,9 @@ from core import flask_bcrypt, app, db
 from users.schemas.model import User
 from ..middlewares.create_user import validate as validate_user_creation
 from ..middlewares.login_user import validate as validate_user_login
-from flasgger import swag_from 
 from os.path import abspath, join
 
-REGISTER_SPECS_PATH = join(abspath('.'), 'auth', 'views', 'specs', 'register.yml')
 class Register(View):
-    @swag_from(REGISTER_SPECS_PATH)
     @validate_user_creation()
     def dispatch_request(self):
         if request.method == 'POST':

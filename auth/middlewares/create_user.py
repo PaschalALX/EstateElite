@@ -7,7 +7,7 @@ def validate():
         @wraps(func)
         def wrapper(*args, **kwargs):
             if not request.is_json:
-                abort(415)
+                abort(400, "Invalid user request")
             
             try:
                 new_user_data = request.json
