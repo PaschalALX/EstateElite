@@ -23,6 +23,7 @@ class NewPropertySchema(Schema):
     
     @pre_load
     def filter_emptyspaces(self, data, **kwargs):
+        """Removes space characters at the beginning and end of provided values"""
         for k, v in data.items():
             if type(v) == str:
                 data[k] = v.strip()
@@ -30,6 +31,7 @@ class NewPropertySchema(Schema):
                 
     @post_load
     def strip_tags(self, data, **kwargs):
+        """Removes tags (eg: html tags) from provided values (data)."""
         for k, v in data.items():
             if type(v) == str:
                 soup = BeautifulSoup(v, "html.parser")

@@ -17,4 +17,12 @@ migrate = Migrate(app, db)
 Swagger(app, template_file=SWAGGER_FILE_PATH)
 flask_bcrypt = Bcrypt(app)
 
+if 'sqlite' in config.SQLALCHEMY_DATABASE_URI:
+    def _fk_pragma_on_connect(dbapi_con, con_record):
+        dbapi_con.execute('pragma foreign_keys=ON')
+
+    with app.app_context():
+        from sqlalchemy import event
+        event.listen(db.engine, 'connect', _fk_pragma_on_connect)
+
 import core.database.models_register
