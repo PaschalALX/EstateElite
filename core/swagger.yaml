@@ -279,7 +279,23 @@ paths:
           description: Ok
           schema:
             $ref: '#/definitions/ResponsePropertiesModel'
- 
+  
+  /properties/categories:
+    get:
+      summary: Get all property categories
+      description: Get all property categories
+      responses:
+        200:
+          description: Ok
+          schema:
+            example:
+              data:
+                - Commercial Property for Rent
+                - Commercial Property for Sale
+                - Houses & Apartments for Rent
+                - Houses & Apartments for Sale
+                - Land & Plots for Rent
+                - Land & Plots for Sale
   /properties/{ppty_id}:
     get:
       summary: Get single property

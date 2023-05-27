@@ -8,17 +8,20 @@ class NewUserSchema(Schema):
     password = fields.String(required=True, error_messages={'required': 'Password is required.'}, validate=validate.Length(min=8, error='Password is too short'))
 
     @pre_load
-    def filter_emptyspaces(self, data, **kwargs):
+    def strip_excess_spaces(self, data, **kwargs):
+        ''' Strip excess spaces before validation '''
         for k, v in data.items():
             if type(v) == str:
                 data[k] = v.strip()
-                
-    @post_load
-    def strip_tags(self, data, **kwargs):
+        return data
+            
+    def strip_html_tags(self, data, **kwargs):    
+        ''' Strip html tags after validation '''
         for k, v in data.items():
             if type(v) == str:
                 soup = BeautifulSoup(v, "html.parser")
                 data[k] = soup.get_text()
+        return data
 
 class LoginUserSchema(Schema):
     username = fields.String(required=False, error_messages={'required': 'Username is required.'}, validate=validate.Length(min=5, error='Username is too short'))

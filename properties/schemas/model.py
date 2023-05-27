@@ -13,7 +13,7 @@ class Property(db.Model):
     id = db.Column(db.String(36), unique=True, default=lambda: str(uuid4()),
                    primary_key=True)
     title = db.Column(db.String(50), nullable=False)
-    category = db.Column(db.Integer, nullable=False)
+    category = db.Column(db.String, nullable=False)
     description = db.Column(db.String, nullable=False)
     state = db.Column(db.String, nullable=False)
     city = db.Column(db.String, nullable=False)

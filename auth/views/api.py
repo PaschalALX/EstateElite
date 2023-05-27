@@ -5,7 +5,7 @@ from users.schemas.model import User
 from ..middlewares.create_user import validate as validate_user_creation
 from ..middlewares.login_user import validate as validate_user_login
 from os.path import abspath, join
-from core.helper.http_response import api_error, api_data
+from core.helpers.http_response import api_error, api_data
 from core.database.storage import addUser
 
 

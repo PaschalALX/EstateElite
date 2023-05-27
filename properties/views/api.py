@@ -3,7 +3,7 @@ from flask.views import View
 from core import db
 from ..schemas.model import Property
 from ..schemas.request_body import CATEGORIES
-from core.helper.http_response import api_data
+from core.helpers.http_response import api_data
 
 class AllProperties(View):
     def dispatch_request(self):
