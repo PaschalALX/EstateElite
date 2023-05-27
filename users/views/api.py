@@ -1,8 +1,9 @@
 from flask.views import View
 from ..schemas.model import User
+from core.helpers.http_response import api_data, api_error
 from properties.schemas.model import Property
+from flask import request
 from core import db
-from flask import jsonify
 import arrow
 
 
@@ -19,12 +20,12 @@ class AllUsers(View):
             user.__dict__['updated_at'] = arrow.get(user.updated_at).humanize()
             users_list.append(user.__dict__)
 
-        return jsonify(users_list)
+        return api_data(users_list)
 
 
-class UserProperty(View):
+class UserProperties(View):
     def dispatch_request(self, id):
-        """Returns all the properties of the user depending on the id."""
+        """Returns all the properties of the user depending on the id of the user."""
         user_ppty_list = list()
         user_pptys = db.session.execute(db.select(Property).
                                         filter_by(user_id=id)).scalars()
@@ -35,4 +36,29 @@ class UserProperty(View):
             user_ppty.__dict__['updated_at'] = arrow.get(user_ppty.updated_at).humanize()
             user_ppty_list.append(user_ppty.__dict__)
 
-        return jsonify(user_ppty_list)
+        return api_data(user_ppty_list)
+
+class UserProperty(View):
+    def dispatch_request(self, user_id, ppty_id):
+        """
+        Returns one requested property of a user depending on the user_id
+        and the property_id.
+        """
+        user_ppty = db.session.execute(db.select(Property).
+                                       filter_by(user_id=user_id, id=ppty_id)).scalar()
+
+        if user_ppty is None:
+            return api_error(404, 'Property not found')
+
+        if request.method == 'GET':
+            del user_ppty.__dict__['_sa_instance_state']
+            user_ppty.__dict__['created_at'] = arrow.get(user_ppty.
+                                                         created_at).humanize()
+            user_ppty.__dict__['updated_at'] = arrow.get(user_ppty.
+                                                         updated_at).humanize()
+                
+            return api_data(user_ppty.__dict__)
+        elif request.method == 'DELETE':
+            db.session.delete(user_ppty)
+            db.session.commit()
+            return api_data('', 204)
