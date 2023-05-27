@@ -4,6 +4,7 @@ from core import db
 from ..schemas.model import Property
 from ..schemas.request_body import CATEGORIES
 from core.helpers.http_response import api_data
+import arrow
 
 
 class AllProperties(View):
@@ -13,8 +14,8 @@ class AllProperties(View):
         pptys = db.session.execute(db.select(Property).order_by(Property.created_at)).scalars()
         for ppty in pptys:
             del ppty.__dict__['_sa_instance_state']
-            # ppty.__dict__['created_at'] = ppty.__dict__['created_at'].isoformat()
-            # ppty.__dict__['updated_at'] = ppty.__dict__['updated_at'].isoformat()
+            ppty.__dict__['created_at'] = arrow.get(ppty.created_at).humanize()
+            ppty.__dict__['updated_at'] = arrow.get(ppty.updated_at).humanize()
             ppty_list.append(ppty.__dict__)
     
         return api_data(ppty_list)
@@ -30,6 +31,8 @@ class SingleProperty(View):
 
         if ppty:
             del ppty.__dict__['_sa_instance_state']
+            ppty.__dict__['created_at'] = arrow.get(ppty.created_at).humanize()
+            ppty.__dict__['updated_at'] = arrow.get(ppty.updated_at).humanize()
             return api_data(ppty.__dict__)
         else:
             ppty = []

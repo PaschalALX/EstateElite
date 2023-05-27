@@ -3,6 +3,7 @@ from ..schemas.model import User
 from properties.schemas.model import Property
 from core import db
 from flask import jsonify
+import arrow
 
 
 class AllUsers(View):
@@ -14,6 +15,8 @@ class AllUsers(View):
         for user in users:
             del user.__dict__['_sa_instance_state']
             del user.__dict__['password']
+            user.__dict__['created_at'] = arrow.get(user.created_at).humanize()
+            user.__dict__['updated_at'] = arrow.get(user.updated_at).humanize()
             users_list.append(user.__dict__)
 
         return jsonify(users_list)
@@ -28,6 +31,8 @@ class UserProperty(View):
 
         for user_ppty in user_pptys:
             del user_ppty.__dict__['_sa_instance_state']
+            user_ppty.__dict__['created_at'] = arrow.get(user_ppty.created_at).humanize()
+            user_ppty.__dict__['updated_at'] = arrow.get(user_ppty.updated_at).humanize()
             user_ppty_list.append(user_ppty.__dict__)
 
         return jsonify(user_ppty_list)
