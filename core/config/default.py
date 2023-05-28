@@ -1,6 +1,8 @@
 from dotenv import load_dotenv
 from os import getenv
+from datetime import timedelta
 
+load_dotenv()
 
 class DefaultConfig():
     ENV = 'production'
@@ -16,6 +18,12 @@ class DefaultConfig():
 
     SQLALCHEMY_TRACK_MODIFICATION = False
 
+    JWT_ACCESS_SECRET_KEY = getenv('JWT_ACCESS_SECRET_KEY')
+    JWT_REFRESH_SECRET_KEY = getenv('JWT_REFRESH_SECRET_KEY')
+    
+    JWT_ACCESS_SECRET_EXP = timedelta(seconds=45).total_seconds()
+    JWT_REFRESH_SECRET_EXP = timedelta(minutes=2).total_seconds()
+    
     @property
     def SQLALCHEMY_DATABASE_URI(self):
         return "mysql+pymysql//{}:{}@{}:{}/{}".format(

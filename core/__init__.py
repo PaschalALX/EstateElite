@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flasgger import Swagger
 from flask_bcrypt import Bcrypt
+from .services.aplos_cache import Cache
 
 SWAGGER_FILE_PATH = join(abspath('.'), 'core', 'swagger.yaml')
 
@@ -16,6 +17,8 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 Swagger(app, template_file=SWAGGER_FILE_PATH)
 flask_bcrypt = Bcrypt(app)
+jwt_cache = Cache(storage_dir='core/caches', file_name='jwt')
+
 
 if 'sqlite' in config.SQLALCHEMY_DATABASE_URI:
     def _fk_pragma_on_connect(dbapi_con, con_record):
