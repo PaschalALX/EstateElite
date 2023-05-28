@@ -22,9 +22,9 @@ class Property(db.Model):
     price = db.Column(db.Integer, nullable=False)
     is_featured = db.Column(db.Boolean, default=False)
     user_id = db.Column(db.String, db.ForeignKey('users.id'))
-    created_at = db.Column(db.DateTime, default=lambda: datetime.now(), nullable=False)
-    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(), nullable=False,
-                           onupdate=datetime.now())
+    created_at = db.Column(db.DateTime, default=lambda: datetime.utcnow(), nullable=False)
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.utcnow(), nullable=False,
+                           onupdate=lambda: datetime.utcnow())
     
     user = db.relationship('User', back_populates='properties')
     images = db.relationship('Image', back_populates='property',

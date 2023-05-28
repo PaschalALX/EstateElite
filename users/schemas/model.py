@@ -19,7 +19,7 @@ class User(db.Model):
     is_admin = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=lambda: datetime.utcnow(), nullable=False)
     updated_at = db.Column(db.DateTime, default=lambda: datetime.utcnow(), nullable=False,
-                           onupdate=datetime.utcnow())
+                           onupdate=lambda: datetime.utcnow())
 
     properties = db.relationship('Property', back_populates='user',
                                  cascade='all, delete, delete-orphan')
