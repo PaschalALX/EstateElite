@@ -4,6 +4,7 @@ from core.helpers.http_response import api_data, api_error
 from properties.schemas.model import Property
 from flask import request
 from core import db
+from ..middleware.property import validate as validate_new_ppty
 import arrow
 
 
@@ -22,8 +23,8 @@ class AllUsers(View):
 
         return api_data(users_list)
 
-
 class UserProperties(View):
+    @validate_new_ppty()
     def dispatch_request(self, id):
         """Returns all the properties of the user depending on the id of the user."""
         user_ppty_list = list()

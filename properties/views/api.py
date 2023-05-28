@@ -2,7 +2,7 @@ from flask import jsonify
 from flask.views import View
 from core import db
 from ..schemas.model import Property
-from ..schemas.request_body import CATEGORIES
+from ..schemas.request_body import category_dict
 from core.helpers.http_response import api_data
 import arrow
 
@@ -22,7 +22,7 @@ class AllProperties(View):
 
 
 def get_categories():
-    return api_data(CATEGORIES)
+    return api_data(category_dict)
 
 
 class SingleProperty(View):
