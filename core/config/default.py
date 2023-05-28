@@ -21,8 +21,8 @@ class DefaultConfig():
     JWT_ACCESS_SECRET_KEY = getenv('JWT_ACCESS_SECRET_KEY')
     JWT_REFRESH_SECRET_KEY = getenv('JWT_REFRESH_SECRET_KEY')
     
-    JWT_ACCESS_SECRET_EXP = timedelta(seconds=45).total_seconds()
-    JWT_REFRESH_SECRET_EXP = timedelta(minutes=2).total_seconds()
+    JWT_ACCESS_SECRET_EXP = timedelta(minutes=10).total_seconds()
+    JWT_REFRESH_SECRET_EXP = timedelta(days=1).total_seconds()
     
     @property
     def SQLALCHEMY_DATABASE_URI(self):

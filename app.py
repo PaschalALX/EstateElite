@@ -9,11 +9,11 @@ app.register_blueprint(api_pptys_bp)
 app.register_blueprint(api_auth_bp)
 app.register_blueprint(api_users_bp)
 
-# from auth.middlewares.jwt import jwt_required
-# @app.route('/api/protected')
-# @jwt_required()
-# def protected():
-#     return {'message': 'This is a protected route'}
+from auth.middlewares.jwt import jwt_required
+@app.route('/api/protected')
+@jwt_required()
+def protected():
+    return {'message': 'This is a protected route'}
 
 #with app.app_context():
     #ppty1 = Property(title='Television', category=2, state='Anambra', city='Awka', address='10 Ifite road, Awka', description='50 inches LED Samsung TV', user_id='dde7ff0d-083c-4ce3-84cb-12f3a1952bc1', price=40000)

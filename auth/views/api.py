@@ -57,19 +57,18 @@ class Login(View):
 
         if not pwd_found:
             return api_error(401, 'Incorrect password')
-        
-        jti = str(uuid4())
+
         jwt_access_exp = time() + app.config['JWT_ACCESS_SECRET_EXP']
         jwt_refresh_exp = time() + app.config['JWT_REFRESH_SECRET_EXP']
 
-        jwt_access_token = jwt.encode({'user_id': user.id, 'exp': jwt_access_exp, 'jti': jti}, app.config['JWT_ACCESS_SECRET_KEY'])
-        jwt_refresh_token = jwt.encode({'user_id': user.id, 'exp': jwt_refresh_exp, 'jti': jti}, app.config['JWT_REFRESH_SECRET_KEY'])
+        jwt_access_token = jwt.encode({'user_id': user.id, 'exp': jwt_access_exp}, app.config['JWT_ACCESS_SECRET_KEY'])
+        jwt_refresh_token = jwt.encode({'user_id': user.id, 'exp': jwt_refresh_exp}, app.config['JWT_REFRESH_SECRET_KEY'])
         
         response = make_response({'jwt_access_token': jwt_access_token})
         response.set_cookie('jwt_refresh_token', jwt_refresh_token, expires=jwt_refresh_exp, path='/api')
         response.status_code = 200
         
-        jwt_cache.put(user.id, jti, app.config['JWT_REFRESH_SECRET_EXP'] / 60)    # jwt whitelist
+        jwt_cache.put(user.id, 'jwt', app.config['JWT_REFRESH_SECRET_EXP'] / 60)    # jwt whitelist
         return response
         
             
