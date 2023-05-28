@@ -3,6 +3,7 @@
 from core import db
 from uuid import uuid4
 from datetime import datetime
+import arrow
 
 
 class Property(db.Model):
@@ -31,7 +32,23 @@ class Property(db.Model):
 
     def __repr__(self):
         return f"({self.id}) {self.title}"
-    
+
+    def to_dict(self):
+        """Returns a dictionary representation of each instance of class."""
+
+        obj = {}
+
+        for key, value in self.__dict__.items():
+            if key != '_sa_instance_state':
+                obj[key] = value
+                if key == 'created_at' or key == 'updated_at':
+                    obj[key] = arrow.get(value).humanize()
+                if key == 'username':
+                    obj[key] = value.title()
+
+        return obj
+
+
 class Image(db.Model):
     """Defines the attributes of the class."""
 
@@ -46,3 +63,18 @@ class Image(db.Model):
     
     def __repr__(self):
         return f"({self.id}) {self.path}"
+
+    def to_dict(self):
+        """Returns a dictionary representation of each instance of class."""
+
+        obj = {}
+
+        for key, value in self.__dict__.items():
+            if key != '_sa_instance_state':
+                obj[key] = value
+                if key == 'created_at' or key == 'updated_at':
+                    obj[key] = arrow.get(value).humanize()
+                if key == 'username':
+                    obj[key] = value.title()
+
+        return obj

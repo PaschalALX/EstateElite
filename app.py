@@ -16,7 +16,7 @@ def protected():
     return {'message': 'This is a protected route'}
 
 #with app.app_context():
-    #ppty1 = Property(title='Generator', category=2, state='Anambra', city='Awka', address='10 Ifite road, Awka', description='1000 Watts Tiger Gen', user_id='e6946680-4801-4707-96ef-3c14049bf1bd', price=40000)
+    #ppty1 = Property(title='Keke', category=2, state='Anambra', city='Awka', address='10 Ifite road, Awka', description='Keke', user_id='96971367-36f1-487b-95ad-3e6fdcf814cc', price=400000)
     #user2 = User(username='tessco', password='987654321', email='chiemelieeze@yahoo.com', is_admin=True)
     #user3 = User(username='terry', password='abcdefghi', email='terry@gmail.com', is_admin=True)
 
@@ -25,5 +25,5 @@ def protected():
     #db.session.add(ppty1)
     #db.session.commit()
 
-if __name__ == '__main__':
-    app.run()
+#if __name__ == '__main__':
+    #app.run()
