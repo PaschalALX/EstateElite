@@ -1,6 +1,5 @@
 import {Formik, Form} from 'formik'
-import { useContext } from 'react'
-import { appCtx } from '../context/appCtx'
+import { Link } from 'react-router-dom'
 
 const initialValues = {
     username_or_email: '',
@@ -15,11 +14,8 @@ const initialValues = {
   const fieldCommonStyle = 'w-full py-1 px-2 bg-transparent border-2 text-sm rounded-lg -mb-2'
 
 const LoginForm = () => {
-    const {setAccountPaneSelect} = useContext(appCtx)
 
-    const selectRegisterPane = () => {
-        setAccountPaneSelect('register')
-    }
+   
   return (
     <Formik 
         initialValues={initialValues}
@@ -46,7 +42,7 @@ const LoginForm = () => {
                 </div>
             </div>
             <div className='border-2 rounded-lg p-4 text-xs text-center'>
-                Don't have an account? <button className='text-blue-700 font-semibold' onClick={selectRegisterPane}> Create an account.</button>
+                Don't have an account? <Link className='text-blue-700 font-semibold' to={'/register'}> Create an account.</Link>
             </div>
             </Form>
         )}

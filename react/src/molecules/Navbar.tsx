@@ -6,11 +6,11 @@ import { useContext } from "react";
 
 import Container from "../components/Container";
 import NavList from "../components/Navlist";
-import SideMenu from "../components/SideMenu";
+import SideMenu from "./SideMenu";
 import { appCtx } from "../context/appCtx";
 
 const Navbar = () => {
-  const {isMenuOpen, setMenuOpen, setAccountModalOpen} = useContext(appCtx)
+  const {isMenuOpen, setMenuOpen} = useContext(appCtx)
   return (
       <nav className="relative z-10 h-14 md:h-20 flex items-center py-4 pb-[75px]">
 
@@ -34,7 +34,6 @@ const Navbar = () => {
 
           <button
             className="text-[#B97745] relative top-[.7em] hover:underline md:block hidden"
-            onClick={()=>setAccountModalOpen((v)=>!v)}
           >
             My Account
           </button>

@@ -2,10 +2,10 @@ import { useContext } from "react"
 
 import LogoDesktopSrc from "../assets/logo-desktop.svg";
 import { appCtx } from "../context/appCtx"
-import NavList from "./Navlist"
+import NavList from "../components/Navlist"
 
 const SideMenu = () => {
-    const {isMenuOpen, setMenuOpen, setAccountModalOpen} = useContext(appCtx)
+    const {isMenuOpen} = useContext(appCtx)
     return (
         <div 
             className={`${!isMenuOpen && 'hidden'}
@@ -17,12 +17,7 @@ const SideMenu = () => {
                     <ul className="[&>li]:text-[#3f3a36] [&>li]:my-4 [&>li]:text-center [&>li]:shadow-sm#B97745 [&>li]:mx-3 [&>li]:py-2">
                         <NavList/>
                         <li 
-                            className="text-sm text-[#B97745] font-bold"
-                            
-                            onClick={()=>{
-                                setMenuOpen(false)
-                                setAccountModalOpen((v)=>!v)
-                            }}>
+                            className="text-sm text-[#B97745] font-bold">
                                 <span 
                                     className="bg-[#B97745] p-2 px-6 rounded-md relative top-6"
                                     style={{ color:'#f1d9c5'}}

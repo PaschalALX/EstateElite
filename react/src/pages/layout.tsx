@@ -1,12 +1,12 @@
 import Navbar from "../molecules/Navbar"
 import HeroImage from "../components/HeroImage";
-import AccountModal from "../molecules/AccountModal";
+import { Outlet } from "react-router-dom";
 
 const Layout = () => {
     return <>
         <Navbar/>
         <HeroImage/>
-        <AccountModal/>
+        <Outlet/>
     </>
 }
 
