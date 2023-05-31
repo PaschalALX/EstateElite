@@ -4,7 +4,7 @@ import LoginForm from "../components/LoginForm"
 import { useLocation } from "react-router-dom"
 import { Link } from 'react-router-dom'
 
-const MyAccount = () => {
+const SignUpLogIn = () => {
   const location = useLocation()
 
   const tabHighlighter = 'border-b-2 border-[#B97745] text-[#B97745] text-base font-semibold'
@@ -14,9 +14,8 @@ const MyAccount = () => {
   const isRegisterPane = location.pathname == '/register'
 
   return (
-    <>
-      {  <div 
-            className="w-full h-screen bg-[#222c] fixed overflow-auto top-0 z-10
+     <div 
+            className="w-full h-screen bg-[#222c] fixed overflow-auto top-0 left-0 z-10
                     flex justify-center items-center
                     "
           >
@@ -51,9 +50,8 @@ const MyAccount = () => {
               { isLoginPane &&  <LoginForm/> }
               { isRegisterPane  && <RegisterForm/> }
           </div>
-      </div>}
-    </>
+      </div>
   )
 }
 
-export default MyAccount
+export default SignUpLogIn

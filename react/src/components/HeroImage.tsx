@@ -5,7 +5,7 @@ const heroBGStyle:React.CSSProperties = {
     backgroundPosition: 'top', 
     backgroundRepeat: 'no-repeat',
     backgroundAttachment: 'fixed',
-    backgroundSize: 'cover',
+    // backgroundSize: '1000px',
     filter: 'constrast(100%)'
 }
 
@@ -13,8 +13,8 @@ const heroBGStyle:React.CSSProperties = {
 const HeroImage = () => {
     return (
     <div style={heroBGStyle} 
-        className='h-screen md:h-[80vh] w-full absolute md:static top-0'>
-            <div className='bg-black w-full h-full opacity-60'></div>
+        className='h-screen md:h-[calc(100vh-84px)] bg-big md:bg-cover w-full absolute top-0 md:top-[84px] z-0'>
+            <div className='bg-black w-full h-full opacity-60 z-0'></div>
     </div>)
 }
 
