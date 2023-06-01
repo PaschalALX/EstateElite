@@ -6,6 +6,7 @@ from flask_migrate import Migrate
 from flasgger import Swagger
 from flask_bcrypt import Bcrypt
 from .services.aplos_cache import Cache
+from flask_cors import CORS
 
 SWAGGER_FILE_PATH = 'swagger.yaml'
 
@@ -18,7 +19,7 @@ migrate = Migrate(app, db)
 Swagger(app, template_file=SWAGGER_FILE_PATH)
 flask_bcrypt = Bcrypt(app)
 jwt_cache = Cache(storage_dir='core/caches', file_name='jwt')
-
+CORS(app, origins=['http://172.19.171.142:5173'], supports_credentials=True)
 
 if 'sqlite' in config.SQLALCHEMY_DATABASE_URI:
     def _fk_pragma_on_connect(dbapi_con, con_record):

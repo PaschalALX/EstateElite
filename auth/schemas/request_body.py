@@ -18,9 +18,9 @@ class NewUserSchema(Schema):
         return data
     
 class LoginUserSchema(Schema):
-    username = fields.String(required=False, error_messages={'required': 'Username is required.'}, validate=validate.Length(min=5, error='Username is too short'))
+    username = fields.String(required=False, error_messages={'required': 'Username is required.'})
     email = fields.Email(required=False, error_messages={'required': 'Email is required.', 'invalid': 'Email provided is invalid'})
-    password = fields.String(required=True, error_messages={'required': 'Password is required.'}, validate=validate.Length(min=8, error='Password is too short'))
+    password = fields.String(required=True, error_messages={'required': 'Password is required.'})
 
     @validates_schema
     def validate_username_or_email(self, data, **kwargs):

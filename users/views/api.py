@@ -5,7 +5,7 @@ from properties.schemas.model import Property
 from flask import request
 from core import db
 from ..middleware.property import validate as validate_new_ppty
-
+from auth.middlewares.jwt import jwt_required
 
 class AllUsers(View):
     """Returns all the users in the database."""
@@ -20,6 +20,7 @@ class AllUsers(View):
 
 
 class SingleUser(View):
+    @jwt_required()
     def dispatch_request(self, user_id):
         """
         If user_id, it returns or deletes the user from the database.
