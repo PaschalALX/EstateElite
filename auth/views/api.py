@@ -66,7 +66,7 @@ class Login(View):
         jwt_access_token = jwt.encode({'user_id': user.id, 'exp': jwt_access_exp}, app.config['JWT_ACCESS_SECRET_KEY'])
         jwt_refresh_token = jwt.encode({'user_id': user.id, 'exp': jwt_refresh_exp}, app.config['JWT_REFRESH_SECRET_KEY'])
         
-        response = make_response({'jwt_access_token': jwt_access_token})
+        response = make_response({'username':user.username,'jwt_access_token': jwt_access_token})
         response.set_cookie('jwt_refresh_token', jwt_refresh_token, expires=jwt_refresh_exp, path='/api')
         response.status_code = 200
         
