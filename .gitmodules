@@ -1,3 +1,6 @@
 [submodule "core/services/aplos_cache"]
 	path = core/services/aplos_cache
 	url = https://github.com/PaschalPM/aplos_cache.git
+[submodule "aplos_cache"]
+	path = aplos_cache
+	url = https://github.com/PaschalPM/aplos_cache.git

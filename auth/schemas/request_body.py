@@ -1,28 +1,22 @@
-from marshmallow import (Schema, fields, validate, post_load,
-                         validates_schema, pre_load, ValidationError)
-from bs4 import BeautifulSoup
+from marshmallow import (Schema, fields, validate,
+                         validates_schema, post_load, ValidationError)
 
 class NewUserSchema(Schema):
     username = fields.String(required=True, error_messages={'required': 'Username is required.'}, validate=validate.Length(min=5, error='Username is too short'))
     email = fields.Email(required=True, error_messages={'required': 'Email is required.', 'invalid': 'Email provided is invalid'})
     password = fields.String(required=True, error_messages={'required': 'Password is required.'}, validate=validate.Length(min=8, error='Password is too short'))
-
-    @pre_load
-    def strip_excess_spaces(self, data, **kwargs):
-        ''' Strip excess spaces before validation '''
-        for k, v in data.items():
-            if type(v) == str:
-                data[k] = v.strip()
+    confirm_password = fields.String(required=True)
+    
+    @validates_schema
+    def compare_passwords(self, data, **kwargs):
+        if not data.get('confirm_password') == data.get('password'):
+            raise ValidationError('Password does not match') 
+    
+    @post_load
+    def remove_confirm_password(self, data, **kwargs):
+        del data['confirm_password']
         return data
-            
-    def strip_html_tags(self, data, **kwargs):    
-        ''' Strip html tags after validation '''
-        for k, v in data.items():
-            if type(v) == str:
-                soup = BeautifulSoup(v, "html.parser")
-                data[k] = soup.get_text()
-        return data
-
+    
 class LoginUserSchema(Schema):
     username = fields.String(required=False, error_messages={'required': 'Username is required.'}, validate=validate.Length(min=5, error='Username is too short'))
     email = fields.Email(required=False, error_messages={'required': 'Email is required.', 'invalid': 'Email provided is invalid'})

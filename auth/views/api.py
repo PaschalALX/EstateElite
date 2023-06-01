@@ -29,8 +29,10 @@ class Register(View):
                 return '', 201
             except Exception as e:
                 error_message = str(e.args[0]) if e.args else "Unknown error occurred"
-                if 'UNIQUE constraint failed:' in error_message:
-                    return api_error(409, 'User already exists')
+                if error_message.endswith('username'):
+                    return api_error(409, f"Username '{data.get('username')}' is already taken.")
+                if error_message.endswith('email'):
+                    return api_error(409, f"Email address '{data.get('email')}' is already registered.")
                 return api_error(400, error_message)
         else:
             return '', 500

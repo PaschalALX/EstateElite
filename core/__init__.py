@@ -7,7 +7,7 @@ from flasgger import Swagger
 from flask_bcrypt import Bcrypt
 from .services.aplos_cache import Cache
 
-SWAGGER_FILE_PATH = join(abspath('.'), 'core', 'swagger.yaml')
+SWAGGER_FILE_PATH = 'swagger.yaml'
 
 config = load_config()
 app = Flask(__name__)

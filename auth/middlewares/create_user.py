@@ -2,6 +2,7 @@ from flask import request, abort, jsonify
 from functools import wraps
 from ..schemas.request_body import NewUserSchema, ValidationError
 from core.helpers.http_response import api_error
+from core.helpers.parsers import strip_excess_spaces, strip_html_tags
 
 def validate():
     def wrapper(func):
@@ -11,7 +12,9 @@ def validate():
                 return api_error()
         
             try:   
-                new_user_data = request.json       
+                new_user_data = request.json    
+                new_user_data = strip_excess_spaces(new_user_data)   
+                new_user_data = strip_html_tags(new_user_data)   
                 new_user_schema = NewUserSchema()
                 valid_data = new_user_schema.load(new_user_data)
                 request.valid_data = valid_data

@@ -25,5 +25,5 @@ def protected():
     #db.session.add(ppty1)
     #db.session.commit()
 
-#if __name__ == '__main__':
-    #app.run()
+if __name__ == '__main__':
+    app.run()
