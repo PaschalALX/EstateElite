@@ -4,10 +4,9 @@ from core import flask_bcrypt, app, db, jwt_cache
 from users.schemas.model import User
 from ..middlewares.create_user import validate as validate_user_creation
 from ..middlewares.login_user import validate as validate_user_login
-from core.helpers.http_response import api_error, api_data
+from core.helpers.http_response import api_error
 from core.database.storage import addUser
 from time import time
-from uuid import uuid4
 import jwt
 from jwt.exceptions import InvalidSignatureError, ExpiredSignatureError
 
@@ -70,21 +69,14 @@ class Login(View):
         }
         jwt_access_token = jwt.encode(payload, app.config['JWT_ACCESS_SECRET_KEY'])
         jwt_refresh_token = jwt.encode(payload, app.config['JWT_REFRESH_SECRET_KEY'])
-        
-        resp_data = {
-            'username':user.username,
-            'jwt_access_token': jwt_access_token,
-            'user_id': user.id                
-        }
-        response = make_response(resp_data)
+       
+        response = make_response({'jwt_access_token': jwt_access_token})
         response.set_cookie('jwt_refresh_token', jwt_refresh_token, expires=jwt_refresh_exp, path='/api')
         response.status_code = 200
         
         jwt_cache.put(user.id, 'jwt', app.config['JWT_REFRESH_SECRET_EXP'] / 60)    # jwt whitelist
         return response
         
-            
-
 class RefreshToken(View):
     def dispatch_request(self):
         jwt_refresh_token = request.cookies.get('jwt_refresh_token')
@@ -93,12 +85,13 @@ class RefreshToken(View):
             try:    
                 payload = jwt.decode(jwt_refresh_token, app.config['JWT_REFRESH_SECRET_KEY'], 'HS256')
                 jwt_access_exp = time() + app.config['JWT_ACCESS_SECRET_EXP']
-                jwt_access_token = jwt.encode({'user_id': payload.get('user_id'), 'exp': jwt_access_exp}, app.config['JWT_ACCESS_SECRET_KEY'])
-                return jsonify({
-                        'user_id': payload.get('user_id'),
-                        'username': payload.get('username'),
-                        'jwt_access_token': jwt_access_token
-                        })
+                new_payload = {
+                    'user_id': payload.get('user_id'),
+                    'username': payload.get('username'),
+                    'exp': jwt_access_exp
+                }
+                jwt_access_token = jwt.encode(new_payload, app.config['JWT_ACCESS_SECRET_KEY'])
+                return jsonify({'jwt_access_token': jwt_access_token})
             except InvalidSignatureError:
                 return api_error(403, 'Invalid refresh token')
             except ExpiredSignatureError:
