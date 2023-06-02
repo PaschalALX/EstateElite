@@ -17,6 +17,7 @@ bs4 = "*"
 flask-moment = "*"
 arrow = "*"
 flask-cors = "*"
+pyjwt = "*"
 
 [dev-packages]
 
