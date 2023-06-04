@@ -1,7 +1,6 @@
 from flask import request
 from core import jwt_cache, app
 import jwt
-from jwt.exceptions import InvalidSignatureError
 from functools import wraps
 from core.helpers.http_response import api_error
 

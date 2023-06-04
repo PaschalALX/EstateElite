@@ -2,7 +2,7 @@ from marshmallow import (Schema, fields, validate,
                          validates_schema, post_load, ValidationError)
 
 class NewUserSchema(Schema):
-    username = fields.String(required=True, error_messages={'required': 'Username is required.'}, validate=validate.Length(min=5, error='Username is too short'))
+    username = fields.String(required=True, error_messages={'required': 'Username is required.'})
     email = fields.Email(required=True, error_messages={'required': 'Email is required.', 'invalid': 'Email provided is invalid'})
     password = fields.String(required=True, error_messages={'required': 'Password is required.'}, validate=validate.Length(min=8, error='Password is too short'))
     confirm_password = fields.String(required=True)

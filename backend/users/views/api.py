@@ -1,4 +1,5 @@
 from flask.views import View
+from flask import make_response
 from ..schemas.model import User
 from core.helpers.http_response import api_data, api_error
 from properties.schemas.model import Property
@@ -6,6 +7,7 @@ from flask import request
 from core import db
 from ..middleware.property import validate as validate_new_ppty
 from auth.middlewares.jwt import jwt_required
+from core import jwt_cache
 
 class AllUsers(View):
     """Returns all the users in the database."""
@@ -37,7 +39,10 @@ class SingleUser(View):
         if request.method == 'DELETE':
             db.session.delete(user)
             db.session.commit()
-            return api_data({'message': 'User Deleted'}, 204)
+            jwt_cache.pull(user_id)
+            response = make_response({'message': 'User Deleted'})          
+            response.delete_cookie('jwt_refresh_token', '/api')
+            return response, 204
 
 
 class UserProperties(View):

@@ -3,7 +3,7 @@ from functools import wraps
 from ..schemas.request_body import LoginUserSchema, ValidationError
 from core.helpers.http_response import api_error
 from core.helpers.http_response import api_error
-from core.helpers.parsers import strip_excess_spaces, strip_html_tags
+from core.helpers.parsers import major_parser
 
 def validate():
     def wrapper(func):
@@ -14,8 +14,7 @@ def validate():
             
             try:
                 login_user_data = request.json
-                login_user_data = strip_excess_spaces(login_user_data)   
-                login_user_data = strip_html_tags(login_user_data) 
+                login_user_data = major_parser(login_user_data)   
                 login_user_schema = LoginUserSchema()
                 valid_data = login_user_schema.load(login_user_data)
                 request.valid_data = valid_data

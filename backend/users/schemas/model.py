@@ -35,8 +35,6 @@ class User(db.Model):
         for key, value in self.__dict__.items():
             if key != '_sa_instance_state' and key != 'password':
                 obj[key] = value
-                if key == 'created_at' or key == 'updated_at':
-                    obj[key] = arrow.get(value).humanize()
                 if key == 'username':
                     obj[key] = value.title()
 

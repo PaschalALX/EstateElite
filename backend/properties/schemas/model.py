@@ -22,9 +22,9 @@ class Property(db.Model):
     price = db.Column(db.Integer, nullable=False)
     is_featured = db.Column(db.Boolean, default=False)
     user_id = db.Column(db.String, db.ForeignKey('users.id'))
-    created_at = db.Column(db.DateTime, default=lambda: datetime.utcnow(), nullable=False)
-    updated_at = db.Column(db.DateTime, default=lambda: datetime.utcnow(), nullable=False,
-                           onupdate=lambda: datetime.utcnow())
+    created_at = db.Column(db.DateTime, default=lambda: str(datetime.utcnow()), nullable=False)
+    updated_at = db.Column(db.DateTime, default=lambda: str(datetime.utcnow()), nullable=False,
+                           onupdate=lambda: str(datetime.utcnow()))
     
     user = db.relationship('User', back_populates='properties')
     images = db.relationship('Image', back_populates='property',
@@ -41,8 +41,6 @@ class Property(db.Model):
         for key, value in self.__dict__.items():
             if key != '_sa_instance_state':
                 obj[key] = value
-                if key == 'created_at' or key == 'updated_at':
-                    obj[key] = arrow.get(value).humanize()
                 if key == 'username':
                     obj[key] = value.title()
 
@@ -72,8 +70,6 @@ class Image(db.Model):
         for key, value in self.__dict__.items():
             if key != '_sa_instance_state':
                 obj[key] = value
-                if key == 'created_at' or key == 'updated_at':
-                    obj[key] = arrow.get(value).humanize()
                 if key == 'username':
                     obj[key] = value.title()
 

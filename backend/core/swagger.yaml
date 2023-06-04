@@ -36,7 +36,8 @@ definitions:
           username: pasmac
           email: pasmac@gmail.com
           password: abcd1234
-      - required: [username, email, password]
+          confirm_password: abcd1234
+      - required: [username, email, password, confirm_password]
   RequestUserLoginModel:
     allOf:
       - description: Please provide either the 'username' or 'email' property.

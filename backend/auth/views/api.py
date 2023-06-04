@@ -70,7 +70,7 @@ class Login(View):
         jwt_access_token = jwt.encode(payload, app.config['JWT_ACCESS_SECRET_KEY'])
         jwt_refresh_token = jwt.encode(payload, app.config['JWT_REFRESH_SECRET_KEY'])
        
-        response = make_response({'jwt_access_token': jwt_access_token})
+        response = make_response({'user_id': user.id, 'jwt_access_token': jwt_access_token})
         response.set_cookie('jwt_refresh_token', jwt_refresh_token, expires=jwt_refresh_exp, path='/api')
         response.status_code = 200
         
@@ -97,13 +97,12 @@ class RefreshToken(View):
             except ExpiredSignatureError:
                 return api_error(403, 'Expired refresh token')
             
-        return api_error(403, 'Expired refresh token')
+        return api_error(401, 'No refresh token')
 
 class Logout(View):
     def dispatch_request(self):
         jwt_refresh_token = request.cookies.get('jwt_refresh_token')
         message = {'message': 'User logged out'}
-        print('COOKIE', jwt_refresh_token)
         
         if jwt_refresh_token:
             try:
@@ -113,7 +112,7 @@ class Logout(View):
                     response = make_response(message)
                     response.delete_cookie('jwt_refresh_token', '/api')
                     return response
-            except InvalidSignatureError:
+            except:
                 return jsonify(message)
             
         return jsonify(message)
