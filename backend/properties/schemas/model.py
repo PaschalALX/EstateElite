@@ -14,14 +14,14 @@ class Property(db.Model):
     id = db.Column(db.String(36), unique=True, default=lambda: str(uuid4()),
                    primary_key=True)
     title = db.Column(db.String(50), nullable=False)
-    category = db.Column(db.String, nullable=False)
-    description = db.Column(db.String, nullable=False)
-    state = db.Column(db.String, nullable=False)
-    city = db.Column(db.String, nullable=False)
-    address = db.Column(db.String, nullable=False)
+    category = db.Column(db.String(50), nullable=False)
+    description = db.Column(db.String(256), nullable=False)
+    state = db.Column(db.String(20), nullable=False)
+    city = db.Column(db.String(30), nullable=False)
+    address = db.Column(db.String(256), nullable=False)
     price = db.Column(db.Integer, nullable=False)
     is_featured = db.Column(db.Boolean, default=False)
-    user_id = db.Column(db.String, db.ForeignKey('users.id'))
+    user_id = db.Column(db.String(36), db.ForeignKey('users.id'))
     created_at = db.Column(db.DateTime, default=lambda: str(datetime.utcnow()), nullable=False)
     updated_at = db.Column(db.DateTime, default=lambda: str(datetime.utcnow()), nullable=False,
                            onupdate=lambda: str(datetime.utcnow()))
@@ -54,8 +54,8 @@ class Image(db.Model):
     
     id = db.Column(db.String(36), unique=True, default=lambda: str(uuid4()),
                    primary_key=True)
-    property_id = db.Column(db.String, db.ForeignKey('properties.id'))
-    path = db.Column(db.String, default=None)
+    property_id = db.Column(db.String(36), db.ForeignKey('properties.id'))
+    path = db.Column(db.String(255), default=None)
 
     property = db.relationship('Property', back_populates='images')
     

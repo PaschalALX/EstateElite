@@ -13,9 +13,9 @@ class User(db.Model):
 
     id = db.Column(db.String(36), unique=True, default=lambda: str(uuid4()),
                    primary_key=True)
-    username = db.Column(db.String, nullable=False, unique=True)
-    email = db.Column(db.String, nullable=False, unique=True)
-    password = db.Column(db.String, nullable=False)
+    username = db.Column(db.String(36), nullable=False, unique=True)
+    email = db.Column(db.String(50), nullable=False, unique=True)
+    password = db.Column(db.String(100), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=lambda: datetime.utcnow(), nullable=False)
     updated_at = db.Column(db.DateTime, default=lambda: datetime.utcnow(), nullable=False,

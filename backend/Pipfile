@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 sqlalchemy = "*"
 flask = "*"
-python-dotenv = "*"
 flask-sqlalchemy = "*"
 flask-migrate = "*"
 jsonschema = "*"
@@ -18,6 +17,9 @@ flask-moment = "*"
 arrow = "*"
 flask-cors = "*"
 pyjwt = "*"
+python-dotenv = "*"
+pymysql = "*"
+cryptography = "*"
 
 [dev-packages]
 

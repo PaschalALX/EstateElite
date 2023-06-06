@@ -24,8 +24,10 @@ class DefaultConfig():
     JWT_ACCESS_SECRET_EXP = timedelta(minutes=10).total_seconds()
     JWT_REFRESH_SECRET_EXP = timedelta(days=1).total_seconds()
     
-    @property
-    def SQLALCHEMY_DATABASE_URI(self):
-        return "mysql+pymysql//{}:{}@{}:{}/{}".format(
-                self.DB_USERNAME, self.DB_PASSWORD, self.DB_HOST,
-                self.DB_PORT, self.DB_DATABASE)
+    # @property
+    # def SQLALCHEMY_DATABASE_URI(self):
+    #     return "mysql+pymysql//{}:{}@{}:{}/{}".format(
+    #             self.DB_USERNAME, self.DB_PASSWORD, self.DB_HOST,
+    #             self.DB_PORT, self.DB_DATABASE)
+
+    SQLALCHEMY_DATABASE_URI = f"mysql+pymysql://{getenv('DB_USERNAME', None)}:{getenv('DB_PASSWORD', None)}@{getenv('DB_HOST', None)}:{getenv('DB_PORT', None)}/{getenv('DB_DATABASE', None)}"
