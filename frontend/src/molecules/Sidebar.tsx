@@ -18,7 +18,7 @@ const Sidebar = ({ page, children , gotoAccount, logoutUser}: React.PropsWithChi
     return (
         <aside
             className={`${!isMenuOpen && 'hidden'}
-                          ${lightColor.bg} absolute top-0 left-0 w-[65%] rounded-r-lg
+                          ${lightColor.bg} fixed top-0 left-0 w-[65%] rounded-r-lg
                           h-screen  md:hidden flex flex-col justify-center  z-30`}
         >
             <Logo

@@ -10,6 +10,8 @@ import { CgLogOut } from "react-icons/cg"
 import { refresh, logout } from "../core/auth-request"
 import { useNavigate } from "react-router-dom"
 import { userTempStorage } from "../core/util"
+import LandingComponent from "../molecules/home/LandingComponent"
+import SecondSection from "../molecules/home/SecondSection"
 
 const Home = () => {
     const { setUser, isMenuOpen, setMenuOpen } = useContext(AppCtx)
@@ -42,7 +44,7 @@ const Home = () => {
         setMenuOpen: React.Dispatch<React.SetStateAction<boolean>>) => {
         return (
             <>
-                <div className={`md:flex hidden items-center gap-2 md:${mainColor.text}`}>
+                <div className={`md:flex hidden items-center gap-2 md:text-[#B97745]`}>
                     <button
                         onClick={gotoAccount}
                     >
@@ -75,6 +77,8 @@ const Home = () => {
                     ulClass="md:flex hidden" />
             </Navbar>
             <Outlet />
+            <LandingComponent/>
+            <SecondSection/>
             <Sidebar page="home" gotoAccount={gotoAccount} logoutUser={logoutUser}>
                 <Navlist
                     isSideNav={true}

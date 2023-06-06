@@ -8,6 +8,12 @@ export const firstLetterCapital = (val:string) =>{
     return val
 }
 
+export const shortenWords = (text:string, len: number = 100) => {
+    if (text.length <= len) return text
+
+    return text.slice(0, len)+'...'
+}
+
 export const jwtUserExtract = (token:string):UserType => {
     const payload = jwtDecode(token) as {user_id: string, username: string}
     return {
