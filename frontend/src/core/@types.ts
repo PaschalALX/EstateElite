@@ -7,16 +7,25 @@ export type UserType = null | {
 }
 
 export type LoginPayLoadType = {
-    username?:string,
-    email?:string,
-    password:string
+    username?: string,
+    email?: string,
+    password: string
 }
 
 export type SignupPayLoadType = {
-    username:string,
-    email:string,
-    password:string,
-    confirm_password:string,
+    username: string,
+    email: string,
+    password: string,
+    confirm_password: string,
+}
+
+export type BlogType = {
+    id: string,
+    title: string,
+    body: string,
+    username: string,
+    userId: string,
+    readtime: string
 }
 
 /* COLORS */

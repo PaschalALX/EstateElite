@@ -38,3 +38,27 @@ export const userTempStorage = {
         this.value = null
     }
 }
+
+export const carouselCycle = (
+    direction: 'left' | 'right', 
+    listLen: number, 
+    setListIndex: React.Dispatch<React.SetStateAction<number>>
+    ) => {
+      let len = listLen - 1
+      if (len <= 0) return 
+
+      if (direction == 'left')
+        setListIndex((v)=>{
+          if (v > 0){
+            return v - 1 
+          }
+          return v
+        })
+      else 
+        setListIndex((v)=>{
+          if (v < len){
+            return v + 1 
+          }
+          return v
+        })
+  }

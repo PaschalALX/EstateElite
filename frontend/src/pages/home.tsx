@@ -61,6 +61,7 @@ const Home = () => {
 
                 <button className="md:hidden">
                     <Hamburger
+                        size={25}
                         isMenuOpen={isMenuOpen}
                         setMenuOpen={setMenuOpen}
                     />

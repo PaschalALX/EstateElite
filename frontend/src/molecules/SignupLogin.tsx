@@ -14,7 +14,7 @@ const SignupLogin = () => {
     const isRegisterPane = location.pathname == '/register'
     return (
         <div
-            className="w-full h-screen bg-[#222c] fixed overflow-auto top-0 left-0 z-30
+            className="w-full h-screen bg-[#222c] fixed overflow-auto top-0 left-0 z-50
                     flex justify-center items-center
                     "
         >
