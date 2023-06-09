@@ -12,9 +12,9 @@ const fieldCommonStyle = 'w-full py-1 px-2 bg-transparent border-2 text-sm round
 const LoginForm = () => {
 
     const { setUser } = useContext(AppCtx)
-    const [isSubmitting, setSubmitting] = useState(false)
+    const [_, setSubmitting] = useState(false)
     const navigate = useNavigate()
-
+    
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         setSubmitting(true)
