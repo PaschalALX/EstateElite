@@ -4,6 +4,7 @@ import { BlogType } from "../../core/@types"
 import { useState } from "react"
 import { carouselCycle } from "../../core/util"
 import BlogBGSrc from '../../assets/retrosupply-jLwVAUtLOAQ-unsplash.jpg'
+import ViewTitle from "../../components/ViewTitle"
 
 
 const blogViewBGStyle: React.CSSProperties = {
@@ -28,10 +29,8 @@ const BlogsView = ({
     }
 
     return (
-        <div className="relative">
-            <h1 className="text-center font-bold text-2xl text-gray-700 my-10 -mb-2">
-                Blogs
-            </h1>
+        <div className="relative" id="blogs">
+            <ViewTitle title="Blogs" className="-mb-4 mt-16"/>
             <div className="mb-10 md:w-[90%] w-[90%] m-auto flex my-10 rounded-xl overflow-hidden shadow-lg shadow-black relative bg-white text-justify">
                 <CarouselButton direction="left" className="hover:text-gray-800" handleClick={cycleBlogLeft} />
                 <CarouselButton direction="right" className="hover:text-white" handleClick={cycleBlogRight} />

@@ -1,7 +1,6 @@
-import { AxiosError } from 'axios'
 import { axiosInstance } from './axios.conf'
 import { LoginPayLoadType, UserType, SignupPayLoadType } from './@types'
-import { jwtUserExtract } from './util'
+import { Auth, jwtUserExtract } from './util'
 
 
 export const logout = (cb: () => void) => {
@@ -9,6 +8,7 @@ export const logout = (cb: () => void) => {
         .then((res) => {
             if (res.status === 200) cb()
         })
+        .catch(()=> cb())
 }
 
 export const refresh = (
@@ -25,9 +25,14 @@ export const refresh = (
             success(user)
         })
         .catch((err) => {
-            const statusCode = err.response.data.error.code
-            const reason = err.response.data.error.message
-            failure(statusCode, reason)
+            if (err.message === 'Network Error'){
+                failure(500, err.message)
+            }
+            else{
+                const statusCode = err.response.data.error.code
+                const reason = err.response.data.error.message
+                failure(statusCode, reason)
+            }
         })
 }
 
@@ -43,9 +48,13 @@ export const login = (
         })
         .catch((err) => {
             console.log(err)
-            const error = err.response.data.error
-            const reason = error.message
-            failure(reason)
+            if (err.message === 'Network Error'){
+                failure(err.message)
+            }
+            else{
+                const reason = err.response.data.error.message
+                failure(reason)
+            }
         })
 }
 
@@ -73,10 +82,21 @@ export const register = (
         .then(() => {
             success()
         })
-        .catch((e) => {
-            if (e instanceof AxiosError) {
-                const reason = e.response?.data.error.message
+        .catch((err) => {
+            if (err.message === 'Network Error'){
+                failure(err.message)
+            }
+            else{
+                const reason = err.response.data.error.message
                 failure(reason)
             }
         })
+}
+
+export const sessionExpired = (
+    cb:()=>void
+) => {
+    Auth.remove()
+    alert('Session Expired')
+    cb()
 }

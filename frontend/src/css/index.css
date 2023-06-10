@@ -4,5 +4,25 @@
 
 body{
     background-color: #F2EDE9;
-    overflow-x: hidden;
+}
+
+::-webkit-scrollbar{
+    width: 0.35em;
+}
+::-webkit-scrollbar-track{
+    background-color: #d3ceca;
+    
+}
+::-webkit-scrollbar-thumb{
+    background-color: #896c58;
+    border-radius: 2.5px;
+
+}
+
+a:hover {
+    cursor: pointer;
+}
+
+.scroll_active{
+    text-decoration: underline;
 }

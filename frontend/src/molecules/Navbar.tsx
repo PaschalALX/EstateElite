@@ -8,7 +8,8 @@ type NavbarType = React.PropsWithChildren & {
 const Navbar = ({ rightCornerElem, children }:NavbarType) => {
   return (
     <nav
-        className="h-14 md:h-20 flex items-center py-4 pb-[75px] sticky top-0"
+        className="h-14 md:h-20 flex items-center py-4 pb-[75px]"
+        id="home"
     >
         <Container className="flex items-center justify-between">
             <div className="flex items-center justify-between">

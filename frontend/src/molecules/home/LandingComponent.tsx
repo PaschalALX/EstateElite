@@ -5,9 +5,9 @@ const btnStyle = twMerge(`px-16 py-1 font-medium text-lg text-white bg-transpare
 
 const LandingComponent = () => {
     return (
-        <div className='absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-30 w-full flex justify-center text-white text-center mt-8 md:scale-105'>
+        <div className='absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-30 w-full flex justify-center text-white text-center mt-8 '>
             <div>
-                <h1 className='text-3xl mb-10'>Find your new property</h1>
+                <h1 className='text-3xl md:text-[33px] mb-10'>Find your new property</h1>
                 <div className="flex mb-3" role="group">
                     <button type="button" className={btnStyle}>
                         Buy
@@ -34,8 +34,8 @@ const LandingComponent = () => {
                         </div>
                         <div className="flex gap-4 mb-3 text-sm">
                             <div className="flex flex-col basis-1/2">
-                                <label htmlFor="cateogory" className="mb-0.5"> Cateogory </label>
-                                <select id="cateogory" className="text-gray-700 p-1" value={'Abuja'}>
+                                <label htmlFor="category" className="mb-0.5"> Category </label>
+                                <select id="category" className="text-gray-700 p-1" value={'Abuja'}>
                                     <option value="land" selected> Land </option>
                                 </select>
                             </div>

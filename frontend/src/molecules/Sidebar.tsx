@@ -5,6 +5,7 @@ import Container from "../components/Container"
 import { lightColor } from "../core/@types"
 import { CgLogOut } from 'react-icons/cg'
 import { RiAccountBoxLine } from 'react-icons/ri'
+import { AiOutlineClose } from 'react-icons/ai'
 
 const Sidebar = ({ page, children , gotoAccount, logoutUser}: React.PropsWithChildren &
 {
@@ -13,7 +14,7 @@ const Sidebar = ({ page, children , gotoAccount, logoutUser}: React.PropsWithChi
     logoutUser: () => void
 }
 ) => {
-    const { isMenuOpen, user } = useContext(AppCtx)
+    const { isMenuOpen, user, setMenuOpen } = useContext(AppCtx)
 
     return (
         <aside
@@ -26,6 +27,9 @@ const Sidebar = ({ page, children , gotoAccount, logoutUser}: React.PropsWithChi
                 className="absolute top-5 left-6"
                 width={'85px'}
             />
+            <button className="absolute top-8 right-6 text-gray-600 font-semibold" onClick={()=> setMenuOpen(false)}>
+                <AiOutlineClose size={28}/>
+            </button>
             <Container>
                 {children}
                 {

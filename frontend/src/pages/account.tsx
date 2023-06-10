@@ -11,7 +11,7 @@ import { Navigate } from "react-router-dom"
 import Sidebar from "../molecules/Sidebar"
 import { Auth, firstLetterCapital } from "../core/util"
 import Container from "../components/Container"
-import { deleteAccount, logout } from "../core/auth-request"
+import { deleteAccount, logout, sessionExpired } from "../core/auth-request"
 import { axiosInstance } from "../core/axios.conf"
 import { useNavigate, NavigateFunction } from "react-router-dom"
 
@@ -26,10 +26,10 @@ const deleteUser = (
         setUser(null)
         navigate('/')
     }, () => {
-        alert('Session Expired')
-        Auth.remove()
-        setUser(null)
-        navigate('/')
+        sessionExpired(()=>{
+            setUser(null)
+            navigate('/login')
+        })       
     })
 }
 
@@ -171,11 +171,11 @@ const Account = () => {
                                     .then((v) => {
                                         console.log(v.data)
                                     })
-                                    .catch((e) => {
-                                        setUser(null)
-                                        Auth.remove()
-                                        console.log(e.message)
-                                        alert('Session Expired')
+                                    .catch(_ => {
+                                        sessionExpired(()=>{
+                                            setUser(null)
+                                            navigate('/login', {replace: true})
+                                        })
                                     })
                             }}>
                                 test link

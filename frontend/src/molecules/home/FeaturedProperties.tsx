@@ -1,4 +1,5 @@
 import PropertyCard from "../../components/PropertyCard"
+import ViewTitle from "../../components/ViewTitle"
 
 const testProperties = [
     {
@@ -59,28 +60,26 @@ const testProperties = [
 
 const FeaturedProperties = () => {
     return (
-        <div className="mb-10">
-            <h1 className="text-center font-bold text-2xl text-gray-700 my-10 ">
-                Featured Properties
-            </h1>
+        <div className="mb-10" id="featured">
+            <ViewTitle title="Featured Properties" className="mt-10 mb-6"/>
             <div className="grid w-full grid-cols-1 gap-y-6 sm:grid-cols-2 lg:grid-cols-3 ">
                 {
                     testProperties.map((ppty) => (
                         <span key={ppty.id}>
-                        <PropertyCard
-                            id={ppty.id}
-                            category={ppty.category}
-                            imageURLs={ppty.imageURLs}
-                            title={ppty.title}
-                            description={ppty.description}
-                            price={ppty.price}
-                            state={ppty.state}
-                            username={ppty.username}
-                            userId={ppty.userId}
-                            isFeatured={ppty.isFeatured}
-                            createdAt={ppty.createdAt}
-                            />
-                            </span>
+                            <PropertyCard
+                                id={ppty.id}
+                                category={ppty.category}
+                                imageURLs={ppty.imageURLs}
+                                title={ppty.title}
+                                description={ppty.description}
+                                price={ppty.price}
+                                state={ppty.state}
+                                username={ppty.username}
+                                userId={ppty.userId}
+                                isFeatured={ppty.isFeatured}
+                                createdAt={ppty.createdAt}
+                                />
+                        </span>
                     ))
                 }
 

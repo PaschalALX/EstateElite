@@ -3,55 +3,57 @@ import { GrStatusUnknown } from 'react-icons/gr'
 import { MdOutlineFeaturedPlayList } from 'react-icons/md'
 import { RiContactsBookLine } from 'react-icons/ri'
 import { TfiWrite } from 'react-icons/tfi'
+import ScrollLink from './ScrollLink'
+
 
 const navItemsCreator = (isSideNav: boolean = false) => {
     if (!isSideNav)
         return ([
-            <a href="/" id='home'> Home </a>,
-            <a href="#about" id='about'> About </a>,
-            <a href="#featured" id='featured'> Featured </a>,
-            <a href="#blogs" id='blogs'> Blogs </a>,
-            <a href="#contacts" id='contacts'> Contacts </a>
+            <ScrollLink to="home"> Home </ScrollLink>,
+            <ScrollLink to="featured"> Featured </ScrollLink>,
+            <ScrollLink to="blogs"> Blogs </ScrollLink>,
+            <ScrollLink to="about"> About </ScrollLink>,
+            <ScrollLink to="contacts"> Contacts </ScrollLink>
         ])
 
     return ([
-        <a href="/" id='home'>
-            <span> <TiHomeOutline size={20}/> </span>
+        <ScrollLink to="home">
+            <span> <TiHomeOutline size={20} /> </span>
             <span> Home </span>
-        </a>,
-        <a href="#about" id='about'>
-            <span> <GrStatusUnknown size={20}/> </span>
-            <span>About</span>
-        </a>,
-        <a href="#featured" id='featured'>
-            <span> <MdOutlineFeaturedPlayList size={20}/> </span>
+        </ScrollLink>,
+        <ScrollLink to="featured">
+            <span> <MdOutlineFeaturedPlayList size={20} /> </span>
             <span> Featured </span>
-        </a>,
-        <a href="#blogs" id='blogs'>
-            <span> <TfiWrite size={20}/> </span>
+        </ScrollLink>,
+        <ScrollLink to="blogs">
+            <span> <TfiWrite size={20} /> </span>
             <span> Blogs </span>
-        </a>,
-        <a href="#contacts" id='contacts'>
-            <span> <RiContactsBookLine size={20}/> </span>
+        </ScrollLink>,
+        <ScrollLink to="about">
+            <span> <GrStatusUnknown size={20} /> </span>
+            <span>About</span>
+        </ScrollLink>,
+        <ScrollLink to="contacts">
+            <span> <RiContactsBookLine size={20} /> </span>
             <span> Contacts </span>
-        </a>
+        </ScrollLink>
     ])
 }
-const Navlist = ({isSideNav = false, className, ulClass}:
+const Navlist = ({ isSideNav = false, className, ulClass }:
     {
-        isSideNav:boolean,
-        className?:string, 
-        ulClass?:string
+        isSideNav: boolean,
+        className?: string,
+        ulClass?: string
     }) => {
     return (
         <ul className={ulClass}>
             {
                 navItemsCreator(isSideNav).map((item, index) => (
-                    <li 
+                    <li
                         key={index}
                         className={className}
-                    > 
-                        {item} 
+                    >
+                        {item}
                     </li>
                 ))
             }

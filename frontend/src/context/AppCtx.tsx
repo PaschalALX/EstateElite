@@ -6,6 +6,7 @@ type AppCtxType = {
     setMenuOpen: React.Dispatch<React.SetStateAction<boolean>>,
     user: UserType,
     setUser: React.Dispatch<React.SetStateAction<UserType>>,
+    showFixedHomeBtn:boolean
 }
 
 export default createContext({} as AppCtxType)
