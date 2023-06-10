@@ -24,8 +24,7 @@ export type BlogType = {
     title: string,
     body: string,
     username: string,
-    userId: string,
-    readtime: string
+    userId: string
 }
 
 /* COLORS */

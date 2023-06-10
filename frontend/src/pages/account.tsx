@@ -9,7 +9,7 @@ import { BsFillHousesFill, BsFilePostFill } from "react-icons/bs"
 import { CgLogOut } from "react-icons/cg"
 import { Navigate } from "react-router-dom"
 import Sidebar from "../molecules/Sidebar"
-import { firstLetterCapital, userTempStorage } from "../core/util"
+import { Auth, firstLetterCapital } from "../core/util"
 import Container from "../components/Container"
 import { deleteAccount, logout } from "../core/auth-request"
 import { axiosInstance } from "../core/axios.conf"
@@ -22,30 +22,34 @@ const deleteUser = (
 ) => {
     deleteAccount(userId, () => {
         alert('Account deleted successully')
-        userTempStorage.remove()
+        Auth.remove()
         setUser(null)
+        navigate('/')
     }, () => {
         alert('Session Expired')
-        userTempStorage.remove()
+        Auth.remove()
         setUser(null)
         navigate('/')
     })
 }
 
 
+
 const Account = () => {
     const { isMenuOpen, setMenuOpen, user, setUser } = useContext(AppCtx)
     const navigate = useNavigate()
 
-    if (!user)
-        return <Navigate to={'/'} replace={true} />
+
+    if (!user) return <Navigate to={'/login'} replace={true} />
+    
 
     const logoutUser = () => {
         logout(() => {
             alert('Logged out')
             setUser(null)
             setMenuOpen(false)
-            userTempStorage.remove()
+            Auth.remove()
+            navigate('/', {replace:true})
         })
     }
 
@@ -117,7 +121,7 @@ const Account = () => {
                 </a>,
                 <a
                     className={`${navItemStyle} hover:text-red-500 font-bold`}
-                    onClick={()=>deleteUser(user.userId, setUser, navigate)}
+                    onClick={() => deleteUser(user.userId, setUser, navigate)}
                 >
                     <RiDeleteBin2Fill />
                     {!isBtmFixed && <span>Delete Account</span>}
@@ -169,7 +173,7 @@ const Account = () => {
                                     })
                                     .catch((e) => {
                                         setUser(null)
-                                        userTempStorage.remove()
+                                        Auth.remove()
                                         console.log(e.message)
                                         alert('Session Expired')
                                     })

@@ -9,23 +9,27 @@ import { Outlet } from "react-router-dom"
 import { CgLogOut } from "react-icons/cg"
 import { refresh, logout } from "../core/auth-request"
 import { useNavigate } from "react-router-dom"
-import { userTempStorage } from "../core/util"
+import { Auth } from "../core/util"
 import LandingComponent from "../molecules/home/LandingComponent"
 import SecondSection from "../molecules/home/SecondSection"
 
 const Home = () => {
-    const { setUser, isMenuOpen, setMenuOpen } = useContext(AppCtx)
+    const { user, setUser, isMenuOpen, setMenuOpen } = useContext(AppCtx)
     const navigate = useNavigate()
 
     const gotoAccount = () => {
         refresh((data) => {
             setUser(data)
+            Auth.set(data)
             navigate('/myaccount/dashboard')
             setMenuOpen(false)
         },
             () => {
+                if (Auth.isSet())
+                    alert('Session Expired')
                 navigate('/login', { replace: true })
                 setUser(null)
+                Auth.remove()
                 setMenuOpen(false)
             }
         )
@@ -36,6 +40,7 @@ const Home = () => {
             alert('Logged out')
             setUser(null)
             setMenuOpen(false)
+            Auth.remove()
         })
     }
 
@@ -51,7 +56,7 @@ const Home = () => {
                         My Account
                     </button>
                     {
-                        userTempStorage.has() &&
+                        user &&
                         <button
                             onClick={logoutUser}
                         >

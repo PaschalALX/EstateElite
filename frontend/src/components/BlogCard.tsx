@@ -5,7 +5,7 @@ import { shortenWords, firstLetterCapital } from "../core/util"
 
 
 const BlogCard = ({
-    id, title, body, username, userId, readtime
+    id, title, body, username, userId
   }: BlogType) => {
     return (
       <div className="p-2 px-10 pb-12">
@@ -13,7 +13,7 @@ const BlogCard = ({
           {title}
         </h1>
         <p className="mb-3">
-          {shortenWords(body, 296)}
+          {shortenWords(body, 196)}
         </p>
         <Link
           to={id}
@@ -25,7 +25,6 @@ const BlogCard = ({
           <a href={userId} className="flex items-center font-semibold gap-x-1">
             <HiUserCircle size={20} /> { firstLetterCapital(username) }
           </a>
-          <span> {readtime} read </span>
         </div>
       </div>
     )

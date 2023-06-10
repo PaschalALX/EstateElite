@@ -16,11 +16,12 @@ export const refresh = (
     failure: (
         statusCode: number,
         reason: string
-    ) => void) => {
+    ) => void = ()=>{}) => {
     axiosInstance.post('/api/auth/refresh')
         .then((res) => {
             let token = res.data.jwt_access_token
             let user: UserType = jwtUserExtract(token)
+
             success(user)
         })
         .catch((err) => {
@@ -41,6 +42,7 @@ export const login = (
             success(user)
         })
         .catch((err) => {
+            console.log(err)
             const error = err.response.data.error
             const reason = error.message
             failure(reason)

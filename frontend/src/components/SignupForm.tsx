@@ -35,7 +35,7 @@ const SignupForm = () => {
             let data = await SignupPayLoadSchema.validate(payload, { abortEarly: false })
             register(data as SignupPayLoadType, () => {
                 alert('Account created successfully')
-                navigate('/')
+                navigate('/login')
             }, (reason) => {
                 console.log(reason)
                 alert(reason)

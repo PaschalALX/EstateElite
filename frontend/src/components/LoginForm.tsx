@@ -4,7 +4,7 @@ import { login } from '../core/auth-request'
 import { LoginPayLoadType } from '../core/@types'
 import AppCtx from '../context/AppCtx'
 import { useNavigate } from 'react-router-dom'
-import { userTempStorage } from '../core/util'
+import { Auth } from '../core/util'
 
 const labelStyle = 'text-sm text-gray-500'
 const fieldCommonStyle = 'w-full py-1 px-2 bg-transparent border-2 text-sm rounded-lg -mb-2'
@@ -36,14 +36,14 @@ const LoginForm = () => {
         }
         login(payload, (data)=>{
             setUser(data)
-            userTempStorage.set(data)
+            Auth.set(data)
             alert('Logged in successfully')
             navigate('/myaccount/dashboard')
             setSubmitting(false)
         }, (reason)=>{
             alert(reason)
             setUser(null)
-            userTempStorage.remove()
+            Auth.remove()
             setSubmitting(false)
         })
     }
