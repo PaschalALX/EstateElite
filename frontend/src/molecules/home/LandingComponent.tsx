@@ -1,7 +1,13 @@
 import { twMerge } from "tailwind-merge"
 import { mainColor } from "../../core/@types"
+import { unavailableServiceMsg } from "../../assets/data"
 
 const btnStyle = twMerge(`px-16 py-1 font-medium text-lg text-white bg-transparent border border-white focus:z-10 focus:bg-[#B97745] focus:scale-110 basis-1/2`)
+
+const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    alert(unavailableServiceMsg)
+}
 
 const LandingComponent = () => {
     return (
@@ -17,7 +23,7 @@ const LandingComponent = () => {
                     </button>
                 </div>
                 <div>
-                    <form action="">
+                    <form action="" onSubmit={(e)=>handleSubmit(e)}>
                     <div className="flex gap-4 mb-3 mt-5 text-sm ">
                             <div className="flex flex-col basis-1/2">
                                 <label htmlFor="state" className="mb-0.5"> State </label>

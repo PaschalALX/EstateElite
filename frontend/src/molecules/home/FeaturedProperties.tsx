@@ -16,8 +16,7 @@ const testProperties = [
             "image_two",
             "image_three"
         ],
-        createdAt: '2023-06-06T17:19:47Z',
-        isFeatured: true
+        createdAt: '2023-06-06T17:19:47Z'
     },
     {
         id: '2',
@@ -36,7 +35,6 @@ const testProperties = [
             "image_five"
         ],
         createdAt: '2023-06-06T17:19:47Z',
-        isFeatured: true
     },
     {
         id: '3',
@@ -53,7 +51,6 @@ const testProperties = [
             "image_three"
         ],
         createdAt: '2023-06-06T17:19:47Z',
-        isFeatured: true
     },
 
 ]
@@ -62,7 +59,7 @@ const FeaturedProperties = () => {
     return (
         <div className="mb-10" id="featured">
             <ViewTitle title="Featured Properties" className="mt-10 mb-6"/>
-            <div className="grid w-full grid-cols-1 gap-y-6 sm:grid-cols-2 lg:grid-cols-3 ">
+            <div className="grid w-full grid-cols-2 gap-y-6 md:grid-cols-3 lg:grid-cols-4 ">
                 {
                     testProperties.map((ppty) => (
                         <span key={ppty.id}>
@@ -71,12 +68,10 @@ const FeaturedProperties = () => {
                                 category={ppty.category}
                                 imageURLs={ppty.imageURLs}
                                 title={ppty.title}
-                                description={ppty.description}
                                 price={ppty.price}
                                 state={ppty.state}
                                 username={ppty.username}
                                 userId={ppty.userId}
-                                isFeatured={ppty.isFeatured}
                                 createdAt={ppty.createdAt}
                                 />
                         </span>

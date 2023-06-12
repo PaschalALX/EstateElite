@@ -26,3 +26,8 @@ a:hover {
 .scroll_active{
     text-decoration: underline;
 }
+
+.active {
+    background-color: #ad774e;
+    color:white!important;
+}

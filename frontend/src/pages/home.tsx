@@ -27,7 +27,7 @@ const Home = () => {
             () => {
                 if (Auth.isSet())
                     alert('Session Expired')
-                navigate('/login', { replace: true })
+                navigate('/login')
                 setUser(null)
                 Auth.remove()
                 setMenuOpen(false)

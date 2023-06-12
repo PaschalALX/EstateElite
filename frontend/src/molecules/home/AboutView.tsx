@@ -14,7 +14,7 @@ const AboutView = () => {
 
             <div style={aboutPicStyle} className=" float-right hidden md:block w-80 h-80 ml-5" />
             <div>
-                <p >
+                <p className='first-letter:text-6xl first-letter:float-left first-letter:-mt-3 first-letter:pr-1'>
                     EstateElite is designed to revolutionize your property search experience in Nigeria. Our app provides a seamless platform for users to explore a vast array of property listings, complete with detailed information and captivating images. Additionally, we go above and beyond by empowering users to securely advertise their own properties within the application.
                 </p>
                 <br />

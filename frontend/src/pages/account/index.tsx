@@ -1,18 +1,17 @@
-import Navbar from "../molecules/Navbar"
-import Hamburger from "../components/Hamburger"
-import { UserType, mainColor } from "../core/@types"
+import Navbar from "../../molecules/Navbar"
+import Hamburger from "../../components/Hamburger"
+import { UserType, mainColor } from "../../core/@types"
 import React, { useContext } from "react"
-import AppCtx from "../context/AppCtx"
-import { NavLink } from "react-router-dom"
+import AppCtx from "../../context/AppCtx"
+import { NavLink, Outlet } from "react-router-dom"
 import { RiDashboard3Fill, RiDeleteBin2Fill } from "react-icons/ri"
 import { BsFillHousesFill, BsFilePostFill } from "react-icons/bs"
 import { CgLogOut } from "react-icons/cg"
 import { Navigate } from "react-router-dom"
-import Sidebar from "../molecules/Sidebar"
-import { Auth, firstLetterCapital } from "../core/util"
-import Container from "../components/Container"
-import { deleteAccount, logout, sessionExpired } from "../core/auth-request"
-import { axiosInstance } from "../core/axios.conf"
+import Sidebar from "../../molecules/Sidebar"
+import { Auth } from "../../core/util"
+import Container from "../../components/Container"
+import { deleteAccount, logout, sessionExpired } from "../../core/auth-request"
 import { useNavigate, NavigateFunction } from "react-router-dom"
 
 const deleteUser = (
@@ -77,54 +76,47 @@ const Account = () => {
 
     const navlinkStyleDesktop = `block mr-3 pl-3 py-2 text-sm hover:cursor-pointer
   rounded-lg my-4 hover:scale-110 flex gap-2 items-center`
-    const navLinkSelectedStyle = 'bg-[#ad774e] border-[#ad774e] font-bold'
 
     const navlinkStyleMobileSide = 'flex justify-center items-center gap-2 py-1 rounded-lg hover:scale-105 hover:cursor-pointer'
-    const navlinkStyleMobileBottom = "hover:cursor-pointer hover:text-[#ad774e]"
-    const navLinkSelectedStyleMobileBottom = 'font-bold text-[#ad774e] text-4xl'
 
-    const isDashboardActive = location.pathname === '/myaccount/dashboard'
 
-    const dashboardListCreator = (navItemStyle: string,
-        navLinkSelectedStyle: string,
-        isBtmFixed: boolean
-    ) => {
+    const dashboardListCreator = (navItemStyle: string ) => {
         return (
             [
                 <NavLink
-                    className={`${navItemStyle} ${isDashboardActive && navLinkSelectedStyle}`}
+                    className={navItemStyle}
                     to={'/myaccount/dashboard'}
                 >
                     <RiDashboard3Fill />
-                    {!isBtmFixed && <span>My Dashboard</span>}
+                    <span>My Dashboard</span>
                 </NavLink>,
                 <NavLink
                     className={`${navItemStyle}`}
-                    to={'/myaccount/properties'}
+                    to={'/myaccount/new_property'}
                 >
                     <BsFillHousesFill />
-                    {!isBtmFixed && <span>My Property Listings</span>}
+                    <span>Add Property</span>
                 </NavLink>,
                 <NavLink
                     className={`${navItemStyle}`}
-                    to={'/myaccount/blogs'}
+                    to={'/myaccount/new_blog'}
                 >
                     <BsFilePostFill />
-                    {!isBtmFixed && <span>My Blogs</span>}
+                    <span>Add Blog</span>
                 </NavLink>,
                 <a
                     className={`${navItemStyle}`}
                     onClick={logoutUser}
                 >
                     <CgLogOut />
-                    {!isBtmFixed && <span>Logout</span>}
+                    <span>Logout</span>
                 </a>,
                 <a
                     className={`${navItemStyle} hover:text-red-500 font-bold`}
                     onClick={() => deleteUser(user.userId, setUser, navigate)}
                 >
                     <RiDeleteBin2Fill />
-                    {!isBtmFixed && <span>Delete Account</span>}
+                    <span>Delete Account</span>
                 </a>
             ]
         )
@@ -137,7 +129,7 @@ const Account = () => {
                 logoutUser={logoutUser}
             >
                 <ul>
-                    {dashboardListCreator(navlinkStyleMobileSide, navLinkSelectedStyle, false).map((item, index) => (
+                    {dashboardListCreator(navlinkStyleMobileSide).map((item, index) => (
                         <li
                             key={index}
                             className="[&>a]:flex [&>a]:gap-2 [&>a]:items-center [&>a]:justify-center [&>a]:text-gray-700 py-3 "
@@ -154,47 +146,14 @@ const Account = () => {
                     {/* Desktop View */}
                     <aside className=" p-2 mb-2 md:flex-1 relative hidden md:block">
                         <ul>
-                            {dashboardListCreator(navlinkStyleDesktop, navLinkSelectedStyle, false).map((item, index) => (
+                            {dashboardListCreator(navlinkStyleDesktop).map((item, index) => (
                                 <li key={index}> {item} </li>
                             ))}
                         </ul>
                     </aside>
-                    <main className=" md:flex-[3.5] bg-[#F2EDE9] relative md:top-3 md:mr-2 rounded-2xl">
-                        <h2 className="text-gray-800 text-xl m-5">
-                            Welcome, <span className="font-semibold">
-                                {firstLetterCapital(user.username)}
-                            </span>
-                        </h2>
-                        <div>
-                            <button onClick={() => {
-                                axiosInstance.get('/api/protected')
-                                    .then((v) => {
-                                        console.log(v.data)
-                                    })
-                                    .catch(_ => {
-                                        sessionExpired(()=>{
-                                            setUser(null)
-                                            navigate('/login', {replace: true})
-                                        })
-                                    })
-                            }}>
-                                test link
-                            </button>
-                        </div>
+                    <main className="md:flex-[3.5] bg-[#F2EDE9] relative overflow-auto md:top-3 md:mr-2 rounded-lg h-dash md:h-auto pt-2 md:pt-0">
+                        <Outlet/>
                     </main>
-
-                    {/* Mobile View */}
-                    <aside className="fixed md:hidden bottom-2 right-0 left-0">
-                        <ul className="flex justify-evenly items-center text-2xl text-white">
-                            {dashboardListCreator(navlinkStyleMobileBottom, navLinkSelectedStyleMobileBottom, true).map((item, index) => (
-                                <li
-                                    key={index}
-                                >
-                                    {item}
-                                </li>
-                            ))}
-                        </ul>
-                    </aside>
                 </div>
             </Container>
         </>

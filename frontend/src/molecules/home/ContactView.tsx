@@ -1,41 +1,75 @@
 import Container from "../../components/Container"
-import { BsFacebook, BsGithub, BsInstagram, BsYoutube, BsTwitter } from "react-icons/bs"
+import { BsGithub } from "react-icons/bs"
+import ViewTitle from "../../components/ViewTitle"
+import React from "react"
+import { MdOutlineDeveloperMode } from "react-icons/md"
+import { InputGroupControl, InputGroup, TextFieldControl, Button, LastFooter } from "../../components/FormComponents"
+import { unavailableServiceMsg } from "../../assets/data"
 
+const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    alert(unavailableServiceMsg)
+}
 const ContactView = () => {
     return (
-        <footer className="bg-[#1f1c18] mt-10 text-[#f2ede6] py-5 px-6" id="contacts">
+        <footer className="bg-[#1f1c18] mt-10 text-[#f7f3ed] py-5 px-6" id="contacts">
             <Container className="">
-                <h2 className="text-lg font-semibold mb-2 pt-2"> Subscribe to our newsletter </h2>
-                <p className="mb-10"> The latest news, articles, and resources, sent to your inbox weekly. </p>
-                <div className="mb-20 mt-5">
-                    <input type="text" placeholder="Enter your email" className="placeholder:text-[#412b1a] py-1 px-3 w-72 mr-2 rounded-lg bg-[#c8c1b4] text-[#6b472b]" />
-                    <button className="bg-[#996238] p-3 py-1 rounded-lg"> Subscribe </button>
-                </div>
+                <ViewTitle title="Contact Us" className="text-[#f7f3ed] mb-2" />
+                <p className="text-center text-lg">
+                    We use an agile approach to test assumptions and connect
+                    <br /> with the needs of your audience early and often.
+                </p>
+                <div className="md:flex w-full h-30 mt-10 gap-x-5">
+                    <div className="flex-grow md:w-2/3">
+                        <form action="" onSubmit={(e) => handleSubmit(e)}>
+                            <InputGroupControl>
+                                <InputGroup id="first-name" label="First Name" placeholder="John" width="w-1/2"/>
+                                <InputGroup id="last-name" label="Last Name" placeholder="Doe" width="w-1/2"/>
+                            </InputGroupControl>
+                            <InputGroupControl>
+                                <InputGroup id="email" label="Your email" placeholder="john.doe2023@mail.com" type="email" width="w-1/2"/>
+                                <InputGroup id="phone" label="Phone Number" placeholder="+234-802-887-5187" width="w-1/2"/>
+                            </InputGroupControl>
+                            <TextFieldControl 
+                                id="message" 
+                                label="Your message" 
+                                cols={30} rows={5} 
+                                placeholder='Leave a comment...' 
+                                className="mb-8"
+                                handleChange={()=>{}}
+                                />
+                            <Button> Send Message </Button>
+                        </form>
+                    </div>
+                    <div className="flex-grow md:w-1/3 text-center flex md:flex-col md:justify-evenly md:items-end items-center justify-between mt-5">
+                        <div>
+                            <div className="p-4 inline-block rounded-lg bg-[#503e25] ">
+                                <BsGithub size={30} />
+                            </div>
+                            <div>
+                                <h3 className="font-semibold text-lg">Github Repo:</h3>
+                                <a href="https://github.com/PaschalALX/EstateElite" className=" hover:text-[#b2835f]">
+                                    github.com/PaschalALX/EstateElite
+                                </a>
+                            </div>
+                        </div>
+                        <div>
+                            <div className="p-4 inline-block rounded-lg bg-[#503e25] ">
+                                <MdOutlineDeveloperMode size={30} />
+                            </div>
+                            <div>
+                                <h3 className="font-semibold text-lg">Developers:</h3>
+                                <div className="">
+                                    <a href="" className="hover:text-[#b2835f]">+234 814 160 0811 (Paschal-Mark) </a> <br />
+                                    <a href="" className="hover:text-[#b2835f]">+234 705 867 9688 (Eze)</a> 
+                                </div>
+                            </div>
+                        </div>
 
-                <div className="flex border-t-2 border-gray-400 justify-between pt-5">
-                    <div className="text-sm">
-                        &copy; 2023 EstateElite. All rights reserved.
-                    </div>
-                    <div className="flex gap-5">
-                        <a href="https://github.com/PaschalALX/EstateElite">
-                            <BsGithub />
-                        </a>
-                        <a href="https://github.com/PaschalALX/EstateElite">
-                            <BsFacebook />
-                        </a>
-                        <a href="https://github.com/PaschalALX/EstateElite">
-                            <BsTwitter />
-                        </a>
-                        <a href="https://github.com/PaschalALX/EstateElite">
-                            <BsInstagram />
-                        </a>
-                        <a href="https://github.com/PaschalALX/EstateElite">
-                            <BsYoutube />
-                        </a>
                     </div>
                 </div>
+                <LastFooter/>
             </Container>
-
         </footer>
     )
 }

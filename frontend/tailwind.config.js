@@ -7,6 +7,9 @@ export default {
     extend: {
       backgroundSize: {
         'big': '1000px'
+      },
+      height: {
+        'dash': 'calc(100vh - 120px)'
       }
     },
   },

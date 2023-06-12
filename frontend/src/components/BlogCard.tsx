@@ -21,7 +21,7 @@ const BlogCard = ({
         >
           Read more &rarr;
         </Link>
-        <div className="flex justify-between items-center mt-5 -mb-3 pt-1">
+        <div className="flex justify-between items-center mt-5 -mb-3 pt-1 text-sm">
           <a href={userId} className="flex items-center font-semibold gap-x-1">
             <HiUserCircle size={20} /> { firstLetterCapital(username) }
           </a>
