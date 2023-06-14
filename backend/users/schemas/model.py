@@ -18,18 +18,3 @@ class User(db.Model, BaseModel):
     properties = db.relationship('Property', back_populates='user',
                                  cascade='all, delete, delete-orphan')
 
-    def __repr__(self):
-        return f"({self.id}) {self.username}"
-
-    def to_dict(self):
-        """Returns a dictionary representation of each instance of class."""
-
-        obj = {}
-
-        for key, value in self.__dict__.items():
-            if key != '_sa_instance_state' and key != 'password':
-                obj[key] = value
-                if key == 'username':
-                    obj[key] = value.title()
-
-        return obj

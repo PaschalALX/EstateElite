@@ -30,6 +30,7 @@ def jwt_required():
                     return func(*args, **kwargs)
                 except Exception as e:
                     return api_error(403, 'Invalid access token')
+                
             return func(*args, **kwargs)
         return wrapper
     return wrapper
