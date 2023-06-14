@@ -1,6 +1,6 @@
 import { twMerge } from "tailwind-merge"
 import { mainColor } from "../../core/@types"
-import { unavailableServiceMsg } from "../../assets/data"
+import { unavailableServiceMsg } from "../../core/data"
 
 const btnStyle = twMerge(`px-16 py-1 font-medium text-lg text-white bg-transparent border border-white focus:z-10 focus:bg-[#B97745] focus:scale-110 basis-1/2`)
 

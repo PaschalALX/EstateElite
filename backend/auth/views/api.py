@@ -59,17 +59,22 @@ class Login(View):
         if not pwd_found:
             return api_error(401, 'Incorrect password')
 
+  
         jwt_access_exp = time() + app.config['JWT_ACCESS_SECRET_EXP']
         jwt_refresh_exp = time() + app.config['JWT_REFRESH_SECRET_EXP']
-
-        payload = {
-            'user_id': user.id,
-            'username':user.username,
-            'exp': jwt_access_exp
-        }
-        jwt_access_token = jwt.encode(payload, app.config['JWT_ACCESS_SECRET_KEY'])
-        jwt_refresh_token = jwt.encode(payload, app.config['JWT_REFRESH_SECRET_KEY'])
        
+        payload = {
+                'user_id': user.id,
+                'username':user.username,
+                'is_admin': user.is_admin
+        }
+        access_payload = { **payload, 'exp': jwt_access_exp }
+    
+        refresh_payload = { **payload, 'exp': jwt_refresh_exp }
+        
+        jwt_access_token = jwt.encode(access_payload, app.config['JWT_ACCESS_SECRET_KEY'])
+        jwt_refresh_token = jwt.encode(refresh_payload, app.config['JWT_REFRESH_SECRET_KEY'])
+        
         response = make_response({'user_id': user.id, 'jwt_access_token': jwt_access_token})
         response.set_cookie('jwt_refresh_token', jwt_refresh_token, expires=jwt_refresh_exp, path='/api')
         response.status_code = 200
@@ -88,6 +93,7 @@ class RefreshToken(View):
                 new_payload = {
                     'user_id': payload.get('user_id'),
                     'username': payload.get('username'),
+                    'is_admin': payload.get('is_admin'),
                     'exp': jwt_access_exp
                 }
                 jwt_access_token = jwt.encode(new_payload, app.config['JWT_ACCESS_SECRET_KEY'])

@@ -1,5 +1,5 @@
 import jwtDecode from "jwt-decode"
-import { UserType, BlogType } from "./@types"
+import { UserType, UserTypeFromJWT } from "./@types"
 
 export const firstLetterCapital = (val: string) => {
   if (typeof (val) == 'string') {
@@ -15,10 +15,11 @@ export const shortenWords = (text: string, len: number = 100) => {
 }
 
 export const jwtUserExtract = (token: string): UserType => {
-  const payload = jwtDecode(token) as { user_id: string, username: string }
+  const payload = jwtDecode(token) as UserTypeFromJWT
   return {
     userId: payload.user_id,
     username: payload.username,
+    isAdmin: payload.is_admin,
     token: token
   }
 }
@@ -78,27 +79,12 @@ export const carouselCycle = (
     })
 }
 
-export const blogList: BlogType[] = [
-  {
-    id: "1",
-    title: "1 Lorem ipsum dolor sit amet consectetur",
-    body: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Numquam error vel fugit veritatis accusantium non. Nesciunt alias accusantium doloremque facere aut nemo? Accusamus dolorum adipisci saepe quibusdam tenetur voluptates atque hic fugit beatae? Nam minima perferendis, debitis necessitatibus officia a.",
-    username: "pasmac",
-    userId: "pasmac1234"
+export const sessionStore = {
+  set(key:string, value:any){
+    console.log(value)
+    sessionStorage.setItem(key, JSON.stringify(value))
   },
-  {
-    id: "2",
-    title: "2 Lorem ipsum dolor sit amet consectetur",
-    body: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Numquam error vel fugit veritatis accusantium non. Nesciunt alias accusantium doloremque facere aut nemo? Accusamus dolorum adipisci saepe quibusdam tenetur voluptates atque hic fugit beatae? Nam minima perferendis, debitis necessitatibus officia a.",
-    username: "pasmac",
-    userId: "pasmac1234"
-  },
-  {
-    id: "3",
-    title: "3 Lorem ipsum dolor sit amet consectetur",
-    body: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Numquam error vel fugit veritatis accusantium non. Nesciunt alias accusantium doloremque facere aut nemo? Accusamus dolorum adipisci saepe quibusdam tenetur voluptates atque hic fugit beatae? Nam minima perferendis, debitis necessitatibus officia a.",
-    username: "eze",
-    userId: "eze1234"
+  get(key:string){
+    return JSON.parse(sessionStorage.getItem(key) as string)
   }
-
-]
+}

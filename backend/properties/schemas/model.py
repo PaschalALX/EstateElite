@@ -3,7 +3,6 @@
 from core import db
 from uuid import uuid4
 from datetime import datetime
-import arrow
 
 
 class Property(db.Model):
@@ -17,14 +16,13 @@ class Property(db.Model):
     category = db.Column(db.String(50), nullable=False)
     description = db.Column(db.String(256), nullable=False)
     state = db.Column(db.String(20), nullable=False)
-    city = db.Column(db.String(30), nullable=False)
     address = db.Column(db.String(256), nullable=False)
     price = db.Column(db.Integer, nullable=False)
-    is_featured = db.Column(db.Boolean, default=False)
+    status = db.Column(db.String(10), default='pending')
     user_id = db.Column(db.String(36), db.ForeignKey('users.id'))
-    created_at = db.Column(db.DateTime, default=lambda: str(datetime.utcnow()), nullable=False)
-    updated_at = db.Column(db.DateTime, default=lambda: str(datetime.utcnow()), nullable=False,
-                           onupdate=lambda: str(datetime.utcnow()))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False,
+                           onupdate=datetime.utcnow)
     
     user = db.relationship('User', back_populates='properties')
     images = db.relationship('Image', back_populates='property',

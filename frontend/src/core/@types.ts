@@ -3,7 +3,14 @@ import * as Yup from 'yup'
 export type UserType = null | {
     userId: string,
     username: string,
+    isAdmin: boolean,
     token: string
+}
+
+export type UserTypeFromJWT = { 
+    user_id: string, 
+    username: string, 
+    is_admin: boolean 
 }
 
 export type LoginPayLoadType = {
@@ -25,6 +32,27 @@ export type BlogType = {
     body: string,
     username: string,
     userId: string
+}
+
+export type PropertyCardType = {
+    id: string,
+    title: string,
+    username?: string,
+    status?: 'approved' | 'declined' | 'pending',
+    state: string,
+    price: string,
+    category: string,
+    imageURLs: string[],
+}
+
+export type PropertyPayloadType = {
+    title: string,
+    category: string,
+    description: string,
+    state: string,
+    address: string,
+    price: number,
+    imageBase64s: string[]
 }
 
 /* COLORS */

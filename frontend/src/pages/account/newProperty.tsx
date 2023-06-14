@@ -1,16 +1,32 @@
 import { InputGroup, Input, SelectControl, TextFieldControl, Button } from "../../components/FormComponents"
-import { categories, states } from "../../assets/data"
+import { categories, states } from "../../core/data"
 import { firstLetterCapital } from "../../core/util"
 import React, { useState } from "react"
+import * as Yup from 'yup'
+import { transform } from "../../core/process-image"
+import { PropertyPayloadType } from "../../core/@types"
+
+
+const NewPropertySchema = Yup.object().shape({
+  title: Yup.string().min(10).required(),
+  category: Yup.string().required(),
+  description: Yup.string().min(10).required(),
+  state: Yup.string().required(),
+  address: Yup.string().min(10).required(),
+  price: Yup.number().required(),
+  imageBase64s: Yup.array(Yup.string()).min(1).max(4).required('Property images are required')
+})
+
+
 
 const NewProperty = () => {
-  const [desc, setDesc] = useState('')
+  const [_, setDesc] = useState('')
   const [numDesc, setNumDesc] = useState(300)
-  const [addr, setAddr] = useState('')
+  const [__, setAddr] = useState('')
   const [numAddr, setNumAddr] = useState(150)
+  const [base64Images, setBase64Images] = useState<string[] | null>(null)
 
-
-  const handleChange = (e: React.FormEvent) => {
+  const handleTextAreaChange = (e: React.FormEvent) => {
     const textArea = e.target as any as HTMLTextAreaElement
 
     if (textArea.id === 'address') {
@@ -22,10 +38,59 @@ const NewProperty = () => {
       setNumDesc(300 - textArea.value.length)
     }
   }
+
+  const handleFileChange = (e: React.ChangeEvent) => {
+    const inputField = e.target as HTMLInputElement
+    const imageList = inputField.files
+
+    if (imageList!.length < 1) {
+      inputField.value = ''
+      return alert('You must upload atleast one property image')
+    }
+    if (imageList!.length > 3) {
+      inputField.value = ''
+      return alert('You can only upload a maximum of 3 property images')
+    }
+    transform(imageList as FileList, (base64Images)=>{ setBase64Images(base64Images) })
+  }
+
+  const handleSubmit = async(e: React.FormEvent) => {
+    e.preventDefault()
+    const pptyForm = e.target as unknown as HTMLFormControlsCollection & {
+      title: HTMLInputElement,
+      category: HTMLOptionElement,
+      description: HTMLTextAreaElement,
+      address: HTMLTextAreaElement,
+      price: HTMLInputElement,
+      state: HTMLOptionElement
+    }
+    const payload:PropertyPayloadType = {
+      title: pptyForm.title.value,
+      category: pptyForm.category.value,
+      description: pptyForm.description.value,
+      address: pptyForm.address.value,
+      price: pptyForm.price.valueAsNumber,
+      state: pptyForm.state.value,
+      imageBase64s: base64Images as string[]
+    }
+    console.log(base64Images)
+    try {
+      let data = await NewPropertySchema.validate(payload, {abortEarly: false})
+      console.log(data)
+    } catch(err){
+      if (err instanceof Yup.ValidationError) {
+        let currentErr = err.inner[0].errors[0]
+        if (currentErr.match('NaN'))
+          alert('price is required')
+        else
+          alert(currentErr)
+    }
+    }
+  }
   return (
     <div className=" w-[450px] max-w-[95%] m-auto my-4 mb-8 text-gray-700">
 
-      <form action="">
+      <form action="" onSubmit={handleSubmit}>
         <div className="mb-4 py-4 relative rounded-lg bg-[#fefefe]">
           <h3 className="text-center font-semibold"> Post Property Ad. </h3>
           <button className="text-[#B97745] absolute top-1/2 -translate-y-1/2 right-6 text-sm" type="reset"> clear </button>
@@ -34,7 +99,7 @@ const NewProperty = () => {
           <InputGroup id="title" label="Title*" placeholder="2 bedroom for sale" className=" mb-3" />
 
           <SelectControl label="Category*" name="category" id="category" className=" mb-3">
-            <option value="-" selected disabled> Select Property's Category </option>
+            <option value="" selected disabled> Select Property's Category </option>
             {
               categories.map(([val, text]) => (
                 <option value={val} key={val}> {text} </option>
@@ -48,7 +113,7 @@ const NewProperty = () => {
             id="description" rows={3}
             className="-mb-1"
             maxLength={300}
-            handleChange={handleChange} />
+            handleChange={handleTextAreaChange} />
           <span className="mb-3 block text-xs text-[#B97745]">{numDesc}</span>
 
           <TextFieldControl
@@ -57,7 +122,7 @@ const NewProperty = () => {
             id="address"
             rows={3} className="-mb-1"
             maxLength={150}
-            handleChange={handleChange}
+            handleChange={handleTextAreaChange}
           />
           <span className="mb-3 block text-xs text-[#B97745]">{numAddr}</span>
 
@@ -75,12 +140,12 @@ const NewProperty = () => {
             <div className="flex flex-col flex-1">
               <label htmlFor="price" className="font-semibold"> Price* </label>
               <div className="flex items-center gap-x-1">
-                &#8358;<Input id='price' placeholder="2000000" />
+                &#8358;<Input id='price' placeholder="2000000" type="number" />
               </div>
             </div>
           </div>
           <div className="flex items-center justify-between mb-3">
-            <input type="file" multiple accept="image/*" />
+            <input type="file" multiple accept="image/*" onChange={handleFileChange} />
             <Button className="text-white bg-green-500 hover:bg-green-700 active:scale-95 py-1 rounded-sm"> Add </Button>
           </div>
         </div>

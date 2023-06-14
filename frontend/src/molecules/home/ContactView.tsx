@@ -4,7 +4,7 @@ import ViewTitle from "../../components/ViewTitle"
 import React from "react"
 import { MdOutlineDeveloperMode } from "react-icons/md"
 import { InputGroupControl, InputGroup, TextFieldControl, Button, LastFooter } from "../../components/FormComponents"
-import { unavailableServiceMsg } from "../../assets/data"
+import { unavailableServiceMsg } from "../../core/data"
 
 const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()

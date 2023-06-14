@@ -14,7 +14,7 @@ refresh((data) => {
 
 axiosInstance.interceptors.request.use(async (config) => {
 
-  if (Auth.isSet()) {
+  if (Auth.isSet() && config.method != 'get') {
     let token = Auth.get()?.token
     
     if (token) {

@@ -10,7 +10,7 @@ app.register_blueprint(api_auth_bp)
 app.register_blueprint(api_users_bp)
 
 from auth.middlewares.jwt import jwt_required
-@app.route('/api/protected')
+@app.route('/api/protected', methods=['POST'])
 @jwt_required()
 def protected():
     return {'message': 'This is a protected route'}

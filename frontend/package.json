@@ -13,6 +13,7 @@
   "dependencies": {
     "autoprefixer": "^10.4.14",
     "axios": "^1.4.0",
+    "compressorjs": "^1.2.1",
     "formik": "^2.4.0",
     "framer-motion": "^10.12.16",
     "hamburger-react": "^2.5.0",

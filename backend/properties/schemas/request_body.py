@@ -18,7 +18,6 @@ class NewPropertySchema(Schema):
     description = fields.String(required=True, validate=validate.Length(min=20))
     address = fields.String(required=True)
     state = fields.String(required=True)
-    city = fields.String(required=True)
     price = fields.Integer(required=True)
     category = fields.Enum(Category)
     images = fields.List(fields.String(required=True))
@@ -33,8 +32,8 @@ class NewPropertySchema(Schema):
     
     @validates('images')
     def image_handler(self, data, **kwargs):
-        if len(data) < 3 or len(data) > 5:
-            raise ValidationError('Images provided should not be less than 3 or greater than 5')
+        if len(data) < 1 or len(data) > 3:
+            raise ValidationError('Images provided should not be less than 1 or greater than 3')
         for image in data:
             if not re.match(f'^data:image', image):
                 raise ValidationError(f'{image} is an invalid image format')

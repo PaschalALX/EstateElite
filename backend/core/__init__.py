@@ -1,4 +1,3 @@
-from os.path import join, abspath
 from flask import Flask
 from core.config import load_config
 from flask_sqlalchemy import SQLAlchemy

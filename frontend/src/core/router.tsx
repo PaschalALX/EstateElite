@@ -4,9 +4,8 @@ import Home from "../pages/home"
 import SignupLogin from "../molecules/SignupLogin"
 import Account from "../pages/account"
 import Dashboard from "../pages/account/dashboard"
-
-import NewBlog from "../pages/account/newBlog"
 import NewProperty from "../pages/account/newProperty"
+import ServiceUnavailable from "../pages/serviceUnavailable"
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
@@ -18,7 +17,7 @@ export const router = createBrowserRouter(
             <Route path="myaccount" element={<Account />}>
                 <Route path="dashboard" element={<Dashboard/>} />
                 <Route path="new_property" element={<NewProperty/>} />
-                <Route path="new_blog" element={<NewBlog/>} />
+                <Route path="new_blog" element={<ServiceUnavailable/>} />
             </Route>
         </Route>
     )
