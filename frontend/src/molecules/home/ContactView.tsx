@@ -41,8 +41,8 @@ const ContactView = () => {
                             <Button> Send Message </Button>
                         </form>
                     </div>
-                    <div className="flex-grow md:w-1/3 text-center flex md:flex-col md:justify-evenly md:items-end items-center justify-between mt-5">
-                        <div>
+                    <div className="flex-grow md:w-1/3 text-center flex flex-col md:justify-evenly md:items-end items-center justify-between mt-5">
+                        <div className="mb-10 md:mb-0">
                             <div className="p-4 inline-block rounded-lg bg-[#503e25] ">
                                 <BsGithub size={30} />
                             </div>
