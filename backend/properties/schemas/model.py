@@ -34,9 +34,10 @@ class Property(db.Model, BaseModel):
         for key, value in self.__dict__.items():
             if key != '_sa_instance_state':
                 obj[key] = value
-                if key == 'username':
-                    obj[key] = value.title()
-
+        obj['images'] = []
+        for image in self.images:
+            obj['images'].append(image.path)
+        obj['username'] = self.user.username
         return obj
 
 
@@ -47,7 +48,9 @@ class Image(db.Model):
     
     id = db.Column(db.String(36), unique=True, default=lambda: str(uuid4()),
                    primary_key=True)
+    user_id = db.Column(db.String(36), db.ForeignKey('users.id'))
     property_id = db.Column(db.String(36), db.ForeignKey('properties.id'))
+    user_id = db.Column(db.String(36), db.ForeignKey('users.id'))
     path = db.Column(db.String(255), default=None)
 
     property = db.relationship('Property', back_populates='images')
@@ -63,7 +66,5 @@ class Image(db.Model):
         for key, value in self.__dict__.items():
             if key != '_sa_instance_state':
                 obj[key] = value
-                if key == 'username':
-                    obj[key] = value.title()
-
+                
         return obj

@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom"
-import { firstLetterCapital } from "../core/util"
+import { firstLetterCapital, joinToBaseURL } from "../core/util"
 import { AiFillCamera } from "react-icons/ai"
 import { MdLocationPin } from "react-icons/md"
 import { BsTrash } from "react-icons/bs"
 import { TiTick } from "react-icons/ti"
 import { CgRemove, CgUser } from "react-icons/cg"
 import { twMerge } from "tailwind-merge"
+
 
 const PropertyCard = ({
     id, category, imageURLs, title, state, price, username, isUserAccount, status, isAdminAccount,
@@ -22,9 +23,9 @@ const PropertyCard = ({
     isUserAccount?: boolean,
     isAdminAccount?: boolean,
     squeeze?: boolean,
-    handleDelete?: (e: React.MouseEvent, id: string) => void,
-    handleDecline?: (e: React.MouseEvent, id: string) => void,
-    handleApprove?: (e: React.MouseEvent, id: string) => void,
+    handleDelete?: (id: string) => void,
+    handleDecline?: (id: string) => void,
+    handleApprove?: (id: string) => void,
 }) => {
     const _status = status === 'approved' ? 'active' : status
     price = parseFloat(price).toLocaleString('en-US')
@@ -40,7 +41,7 @@ const PropertyCard = ({
                             <div className={twMerge("relative flex h-40 justify-center overflow-hidden rounded-lg", squeeze && 'h-[88px]')}>
                                 <div className="w-full transform transition-transform duration-500 ease-in-out hover:scale-110">
                                     <div className="absolute inset-0 bg-black bg-opacity-80">
-                                        <img src={imageURLs[0]} alt="" />
+                                        <img src={joinToBaseURL(imageURLs[0], false)} alt="" />
                                     </div>
                                 </div>
 
@@ -87,7 +88,7 @@ const PropertyCard = ({
             </div>
             <div className="relative -top-[6px]">
                 {isUserAccount && !isAdminAccount && <div className="border-t-2 relative mx-auto w-[90%] rounded-lg bg-white p-2 shadow-gray-400 shadow-lg mt-1 flex justify-center">
-                    <button title="delete" onClick={(e) => handleDelete!(e, id)}>
+                    <button title="delete" onClick={() => handleDelete!(id)}>
                         <BsTrash color='red' />
                     </button>
                 </div>}
@@ -97,10 +98,10 @@ const PropertyCard = ({
                         <CgUser /> {firstLetterCapital(username as string)}
                     </span>
                     <div className="flex items-center">
-                        <button title="decline" onClick={(e) => handleDecline!(e, id)}>
+                        <button title="decline" onClick={_ => handleDecline!(id)}>
                             <CgRemove color='red' size={25} />
                         </button>
-                        <button title="approve" className="ml-2" onClick={(e) => handleApprove!(e, id)}>
+                        <button title="approve" className="ml-2" onClick={_ => handleApprove!(id)}>
                             <TiTick color='green' size={25} />
                         </button>
                     </div>

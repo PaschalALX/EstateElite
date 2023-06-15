@@ -14,6 +14,7 @@ const App = () => {
   const [showFixedHomeBtn, setShowFixedHomeBtn] = useState(false)
   
   useEffect(() => {
+
       window.onscroll = () => {
         setWinScrollY(window.scrollY)
       }

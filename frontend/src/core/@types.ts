@@ -46,13 +46,27 @@ export type PropertyCardType = {
 }
 
 export type PropertyPayloadType = {
+    user_id: string,
     title: string,
     category: string,
     description: string,
     state: string,
     address: string,
     price: number,
-    imageBase64s: string[]
+    images: string[]
+}
+
+export type PropertyFromServer = {
+    id: string,
+    title: string,
+    category: string,
+    description: string,
+    state: string,
+    address: string,
+    price: number,
+    username: string,
+    status:'approved' | 'declined' | 'pending',
+    images: string[]
 }
 
 /* COLORS */

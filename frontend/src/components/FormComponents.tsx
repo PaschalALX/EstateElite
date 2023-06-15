@@ -2,27 +2,32 @@ import { PropsWithChildren, ReactNode } from "react"
 import { BsFacebook, BsGithub, BsInstagram, BsYoutube, BsTwitter } from "react-icons/bs"
 import { twMerge } from "tailwind-merge"
 
-export const Input = ({ id, type, placeholder, className }: {
+export const Input = ({ id, type, placeholder, className, maxLength, handleChange }: {
     id: string,
     type?: string,
     placeholder: string,
-    className?: string
+    className?: string,
+    maxLength?: number,
+    handleChange?:(e:React.ChangeEvent<HTMLInputElement>)=>void
 }) => {
-    return (<input type={type ?? 'text'} placeholder={placeholder} id={id} className={twMerge("p-2 rounded-lg placeholder:text-[#a39890]  text-[#6b472b] bg-[#f7f3ed] text-sm", className)} />)
+    return (<input maxLength={maxLength} onChange={(e)=>handleChange!(e)} type={type ?? 'text'} placeholder={placeholder} id={id} className={twMerge("p-2 rounded-lg placeholder:text-[#a39890]  text-[#6b472b] bg-[#f7f3ed] text-sm", className)} />)
 }
 
-export const InputGroup = ({ id, type, placeholder, label, width, className }: {
+
+export const InputGroup = ({ id, type, placeholder, label, width, className, maxLength, handleChange }: {
     id: string,
     type?: string,
     placeholder: string,
     label: string,
     width?: string,
-    className?: string
+    className?: string,
+    maxLength?: number,
+    handleChange?:(e:React.ChangeEvent<HTMLInputElement>)=>void
 }) => {
     return (
         <div className={twMerge("flex flex-col", width)}>
             <label htmlFor={id} className="mb-2 font-semibold"> {label} </label>
-            <Input id={id} type={type} placeholder={placeholder} className={className}/>
+            <Input id={id} type={type} placeholder={placeholder} className={className} handleChange={handleChange} maxLength={maxLength}/>
         </div>)
 }
 

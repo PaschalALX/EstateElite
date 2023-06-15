@@ -14,8 +14,9 @@ class Category(Enum):
 category_dict = {c.name: c.value for c in Category}
 
 class NewPropertySchema(Schema):
-    title = fields.String(required=True, validate=validate.Length(min=20))
-    description = fields.String(required=True, validate=validate.Length(min=20))
+    user_id = fields.String(required=True)
+    title = fields.String(required=True, validate=validate.Length(min=10))
+    description = fields.String(required=True, validate=validate.Length(min=10))
     address = fields.String(required=True)
     state = fields.String(required=True)
     price = fields.Integer(required=True)

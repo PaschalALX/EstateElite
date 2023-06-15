@@ -5,7 +5,7 @@ import SignupLogin from "../molecules/SignupLogin"
 import Account from "../pages/account"
 import Dashboard from "../pages/account/dashboard"
 import NewProperty from "../pages/account/newProperty"
-import ServiceUnavailable from "../pages/serviceUnavailable"
+import ServiceUnavailable from "../pages/NoticePage"
 
 export const router = createBrowserRouter(
     createRoutesFromElements(

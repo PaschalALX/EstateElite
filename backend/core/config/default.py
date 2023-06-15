@@ -17,7 +17,9 @@ class DefaultConfig():
     DB_PASSWORD = getenv('DB_PASSWORD', None)
 
     SQLALCHEMY_TRACK_MODIFICATION = False
-
+    
+    IMAGES_UPLOAD_FOLDER = 'core/static/uploads'
+    
     JWT_ACCESS_SECRET_KEY = getenv('JWT_ACCESS_SECRET_KEY')
     JWT_REFRESH_SECRET_KEY = getenv('JWT_REFRESH_SECRET_KEY')
     

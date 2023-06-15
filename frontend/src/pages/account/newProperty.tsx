@@ -1,10 +1,13 @@
 import { InputGroup, Input, SelectControl, TextFieldControl, Button } from "../../components/FormComponents"
 import { categories, states } from "../../core/data"
 import { firstLetterCapital } from "../../core/util"
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
 import * as Yup from 'yup'
 import { transform } from "../../core/process-image"
 import { PropertyPayloadType } from "../../core/@types"
+import AppCtx from "../../context/AppCtx"
+import { axiosInstance } from "../../core/axios.conf"
+import { useNavigate } from "react-router-dom"
 
 
 const NewPropertySchema = Yup.object().shape({
@@ -14,18 +17,27 @@ const NewPropertySchema = Yup.object().shape({
   state: Yup.string().required(),
   address: Yup.string().min(10).required(),
   price: Yup.number().required(),
-  imageBase64s: Yup.array(Yup.string()).min(1).max(4).required('Property images are required')
+  images: Yup.array(Yup.string()).min(1).max(4).required('Property images are required')
 })
 
 
 
 const NewProperty = () => {
-  const [_, setDesc] = useState('')
+  const [_, setTitle] = useState('')
+  const [numTitle, setNumTitle] = useState(50)
+  const [__, setDesc] = useState('')
   const [numDesc, setNumDesc] = useState(300)
-  const [__, setAddr] = useState('')
+  const [___, setAddr] = useState('')
   const [numAddr, setNumAddr] = useState(150)
   const [base64Images, setBase64Images] = useState<string[] | null>(null)
+  const {user} = useContext(AppCtx)
+  const navigate = useNavigate()
 
+  const handleTitleChange = (e: React.ChangeEvent) => {
+    const titleInput = e.target as any as HTMLInputElement
+    setTitle(titleInput.value)
+    setNumTitle(50 - titleInput.value.length)
+  }
   const handleTextAreaChange = (e: React.FormEvent) => {
     const textArea = e.target as any as HTMLTextAreaElement
 
@@ -65,18 +77,26 @@ const NewProperty = () => {
       state: HTMLOptionElement
     }
     const payload:PropertyPayloadType = {
+      user_id: user?.userId as string,
       title: pptyForm.title.value,
       category: pptyForm.category.value,
       description: pptyForm.description.value,
       address: pptyForm.address.value,
       price: pptyForm.price.valueAsNumber,
       state: pptyForm.state.value,
-      imageBase64s: base64Images as string[]
+      images: base64Images as string[]
     }
-    console.log(base64Images)
+
     try {
       let data = await NewPropertySchema.validate(payload, {abortEarly: false})
-      console.log(data)
+      
+      axiosInstance.post(`/api/users/${user?.userId}/properties`, data)
+      .then(()=>{
+        alert('Well Done! \n Your ad will be published after review.')
+        navigate('/myaccount/dashboard')
+      }).catch((e)=>{
+        console.log(e)
+      })
     } catch(err){
       if (err instanceof Yup.ValidationError) {
         let currentErr = err.inner[0].errors[0]
@@ -96,7 +116,15 @@ const NewProperty = () => {
           <button className="text-[#B97745] absolute top-1/2 -translate-y-1/2 right-6 text-sm" type="reset"> clear </button>
         </div>
         <div className="bg-white p-6 rounded-lg">
-          <InputGroup id="title" label="Title*" placeholder="2 bedroom for sale" className=" mb-3" />
+          <InputGroup 
+            id="title" 
+            label="Title*" 
+            placeholder="2 bedroom for sale" 
+            className="mb-1" 
+            handleChange={handleTitleChange} 
+            maxLength={50}
+            />
+            <span className="mb-3 block text-xs text-[#B97745]">{numTitle}</span>
 
           <SelectControl label="Category*" name="category" id="category" className=" mb-3">
             <option value="" selected disabled> Select Property's Category </option>
@@ -140,7 +168,7 @@ const NewProperty = () => {
             <div className="flex flex-col flex-1">
               <label htmlFor="price" className="font-semibold"> Price* </label>
               <div className="flex items-center gap-x-1">
-                &#8358;<Input id='price' placeholder="2000000" type="number" />
+                &#8358;<Input id='price' placeholder="2000000" type="number" handleChange={()=>{}}/>
               </div>
             </div>
           </div>

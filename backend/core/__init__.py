@@ -10,7 +10,7 @@ from flask_cors import CORS
 SWAGGER_FILE_PATH = 'swagger.yaml'
 
 config = load_config()
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/', static_folder='static')
 app.url_map.strict_slashes = False
 app.config.from_object(config)
 db = SQLAlchemy(app)

@@ -14,12 +14,19 @@ export const Title = ({ user }: { user: UserType }) => {
     )
 }
 
-export const TabBar = ({ tab, setTab }: { tab: 'ppty' | 'blogs', setTab: React.Dispatch<React.SetStateAction<'ppty' | 'blogs'>> }) => {
+type StatusType = 'approved' | 'declined' | 'pending' | 'all'
+export const TabBar = ({ tab, setTab, toggleStatus }: 
+    { 
+        tab: 'ppty' | 'blogs', 
+        setTab: React.Dispatch<React.SetStateAction<'ppty' | 'blogs'>>
+        toggleStatus: (status: StatusType) => void
+    }
+    ) => {
     const selectedTabStyle = "bg-[#ad774e] text-white rounded-t-lg font-semibold"
     return (
         <nav className="flex text-black border-b-2 border-[#ad774e] text-sm justify-between">
             <div>
-                <select name="" id="" className="bg-transparent rounded-sm text-sm p-1 pl-0 font-semibold w-24">
+                <select name="" id="" className="bg-transparent rounded-sm text-sm p-1 pl-0 font-semibold w-24" onChange={(e) => toggleStatus(e.target.value as StatusType)}>
                     <option value="approved">Approved</option>
                     <option value="declined">Declined</option>
                     <option value="pending">Pending</option>

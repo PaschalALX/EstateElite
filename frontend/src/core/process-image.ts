@@ -17,9 +17,10 @@ export const compressImage = async (image: File) => {
 export const convertToBase64 = async (image: File) => {
     return new Promise((res) => {
         const fr = new FileReader()
+        const imageName = image.name
         fr.readAsDataURL(image)
         fr.addEventListener('load', (e) => {
-            res(e.target?.result)
+            res(`${e.target?.result},${imageName}`)
         })
     })
 }

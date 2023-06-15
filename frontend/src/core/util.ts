@@ -1,5 +1,11 @@
 import jwtDecode from "jwt-decode"
 import { UserType, UserTypeFromJWT } from "./@types"
+import { baseURL } from "./axios.conf"
+
+export const joinToBaseURL = (path:string, isAPI=true) => {
+
+  return isAPI ? `${baseURL}/api/${path}` : `${baseURL}/${path}`
+}
 
 export const firstLetterCapital = (val: string) => {
   if (typeof (val) == 'string') {
